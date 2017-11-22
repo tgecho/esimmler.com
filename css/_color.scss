@@ -1,0 +1,42 @@
+@import "mixins";
+
+$white: #fff;
+$black: #222;
+$primary-color: #7CCC45; // light green
+$secondary-color: #72B245; // dark green
+$accent-color: #FF8356; // orange
+$link-color: #3344B2;
+
+body {
+    color: $black;
+}
+
+a {
+    @include link-color($link-color);
+}
+.post-header [rel="author"] {
+    @include link-color($primary-color, $intensity: .5);
+}
+
+h1 {
+	color: $primary-color;
+	a {
+	    @include link-color($primary-color, $intensity: .5);
+	}
+}
+h2 {
+	color: $accent-color;
+    a {
+        @include link-color($accent-color, $intensity: .5);
+    }
+}
+h3, h4, h5, h6 {
+	color: $secondary-color;
+    a {
+        @include link-color($secondary-color, $intensity: .5);
+    }
+}
+
+time {
+    color: lighten($black, 20);
+}

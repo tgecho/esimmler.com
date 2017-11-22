@@ -1,1 +1,29 @@
-Hello World
+---
+title: Home
+---
+
+$partial("templates/_blurb.html")$
+
+$for(posts)$
+<article class="post">
+    <header class="post-header">
+        <h2 class="post-title">
+            <a href="$url$">$title$</a>
+        </h2>
+        <time datetime="$timestamp$">$date$</time>
+    </header>
+
+    $if(teaser)$
+	<div class="excerpt">
+		$teaser$
+		<a href="$url$" class="more-link">Keep reading &rsaquo;</a>
+	</div>
+    $else$
+	<div class="excerpt">
+        $fullContent$
+    </div>
+    $endif$
+</article>
+$endfor$
+
+<p>Still hungry? You can find more where that came from in the <a href="/archive/">archives</a>.</p>

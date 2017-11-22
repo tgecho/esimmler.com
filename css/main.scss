@@ -1,0 +1,132 @@
+@import "normalize";
+@import "typography";
+@import "color";
+@import "syntax";
+
+$baseline: 1.5rem;
+$max-width: $baseline * 36;
+
+@include init_typography($baseline, $max-width);
+
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+#body-wrap {
+    max-width: $max-width;
+    margin: 0 auto;
+    
+    padding: 0 $baseline/2;
+    @media screen and (min-width: 550px) {
+        padding: 0 $baseline;
+    }
+
+    .post {
+        $border: 1px solid $secondary-color;
+        margin-bottom: $baseline;
+
+        &:after {
+            content: "⁂"; // https://en.wikipedia.org/wiki/Asterism_(typography)
+            display: block;
+            font-size: $baseline;
+            font-family: "Calluna", serif;
+            text-align: center;
+            color: $accent-color;
+            clear: both;
+        }
+    }
+}
+.site-title {
+    text-align: center;
+}
+.post-header {
+    .post-title {
+        margin-bottom: 0;
+
+        &+time {
+            margin-top: 0;
+        }
+    }
+}
+
+.post footer {
+  text-align: center;
+}
+
+.blurb {
+    text-align: center;
+    p {
+        margin-bottom: 0;
+    }
+    ul {
+        margin-top: 0;
+        padding: 0;
+    }
+    li {
+        list-style: none;
+        display: inline-block;
+
+        & + li:before {
+            content: "\00B7  ";
+        }
+    }
+}
+
+.highlight-inline {
+  color: #fff;
+  background: #272822;
+}
+.highlight {
+  padding: .5rem;
+  border-radius: .25rem;
+  @extend .highlight-inline;
+}
+
+.more-posts {
+    margin-top: 1.5rem;
+}
+.posts-list {
+  li {
+      list-style: none;
+  }
+  a {
+      display: block;
+      padding: .2em .2em .2em 6.5em;
+      position: relative;
+
+      time {
+          position: absolute;
+          left: 0;
+          width: 6.5em;
+          text-align: right;
+      }
+      span {
+          float: left;
+      }
+  }
+}
+
+time {
+    color: #999;
+    font-size: .9em;
+}
+
+main {
+    margin-bottom: 1.5rem;
+}
+
+td {
+    vertical-align: top;
+    padding: $baseline/2;
+    border: 1px solid #ddd;
+}
+
+blockquote {
+  margin-left: 0;
+  padding-left: $baseline - .4rem;
+  border-left: solid .4rem #ddd;
+  opacity: .8;
+}
