@@ -53,7 +53,7 @@ main = hakyll $ do
             posts <- recentFirst =<< loadAll "posts/*"
             let archiveCtx =
                        listField "posts" postCtx (return posts)
-                    <> constField "title" "Archives"
+                    <> constField "title" "Archive"
                     <> siteCtx
 
             makeItem ""
@@ -73,7 +73,6 @@ main = hakyll $ do
                     
                 indexCtx =
                        listField "posts" postListCtx (return $ take 5 posts)
-                    <> constField "title" "Home"
                     <> siteCtx
 
             getResourceBody
@@ -104,11 +103,23 @@ postCtx =
     <> siteCtx
 
 siteCtx :: Context String
-siteCtx =constField "siteTitle" "Erik Simmler"
+siteCtx = 
+       constField "siteTitle" "Erik Simmler"
     <> constField "author" "Erik Simmler"
     <> constField "feedUrl" "/feed.atom"
+    <> preventLonelyLastWord
     <> defaultContext
     
+preventLonelyLastWord :: Context a
+preventLonelyLastWord =
+    functionField "preventLonelyLastWord" $ \args item ->
+        case args of
+            [line] -> return $
+                case traceShowId $ reverse (words line) of
+                    w1 : w2 : ws -> unwords . reverse $ (w2 ++ "&nbsp;" ++ w1) : ws
+                    _ -> line
+            _ ->
+                fail "preventLonelyLastWord only needs a single argument"
 
 compileSass :: String -> Compiler (Item String)
 compileSass loadPath = do

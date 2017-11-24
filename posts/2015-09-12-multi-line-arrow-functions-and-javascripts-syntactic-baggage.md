@@ -1,5 +1,5 @@
 ---
-title: Multiline arrow functions and Javascript's syntactic baggage
+title: Arrow functions and Javascript's syntactic baggage
 ---
 
 I recently learned two new things about Javascript. The first discovery makes me feel silly. Somehow I missed that there is a multiline form as well as the short, single line form.

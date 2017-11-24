@@ -34,7 +34,7 @@ html {
             font-size: $baseline;
             font-family: "Calluna", serif;
             text-align: center;
-            color: $accent-color;
+            color: lighten(saturate($accent-color, 10), 20);
             clear: both;
         }
     }
