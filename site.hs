@@ -12,7 +12,6 @@ import System.FilePath.Posix
     , dropTrailingPathSeparator
     )
 import Data.List (isInfixOf)
-import Debug.Trace (traceShowId)
 import Text.Regex.PCRE ((=~))
 import Control.Monad
 import Data.Maybe (isJust, isNothing)
@@ -115,7 +114,7 @@ preventLonelyLastWord =
     functionField "preventLonelyLastWord" $ \args item ->
         case args of
             [line] -> return $
-                case traceShowId $ reverse (words line) of
+                case reverse (words line) of
                     w1 : w2 : ws -> unwords . reverse $ (w2 ++ "&nbsp;" ++ w1) : ws
                     _ -> line
             _ ->

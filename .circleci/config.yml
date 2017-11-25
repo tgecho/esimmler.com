@@ -1,0 +1,27 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: tgecho/esimmler-com
+    environment:
+      - LANG: en_US.UTF-8
+      - LC_ALL: C.UTF-8
+    branches:
+      only:
+        - hakyll
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-site-{{ checksum "/usr/local/bin/site" }}
+      - run:
+          name: Build site
+          command: |
+            locale
+            site build
+      - save_cache:
+          paths:
+            - _site
+          key: v1-stack-work-{{ checksum "/usr/local/bin/site" }}
+      - store_artifacts:
+          path: _site
