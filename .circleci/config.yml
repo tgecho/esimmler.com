@@ -19,9 +19,11 @@ jobs:
             add-apt-repository ppa:tista/build
             apt-get update
             apt-get --yes --force-yes install sassc
+            pip install awscli
             stack setup
             stack build
             stack exec site rebuild
+            cd _site; aws s3 sync . s3://esimmler.com/ --delete
       - save_cache:
           paths:
             - .stack-work

@@ -127,8 +127,8 @@ compileSass loadPath = do
     >>= withItemBody (unixFilter "sassc"
         [ "-s"
         , "--load-path", loadPath
-        , "--style", "expanded"
-        -- , "--style", "compressed"
+        -- , "--style", "expanded"
+        , "--style", "compressed"
         -- , "--sourcemap", "inline"
         ])
 
@@ -162,7 +162,7 @@ removeIndexHtml item =
         removeLocalIndexStr :: String -> String
         removeLocalIndexStr url =
             case splitFileName url of
-                (dir, "index.html") | isLocal dir -> dropTrailingPathSeparator dir
+                (dir, "index.html") | isLocal dir -> dir
                 _ -> url
 
         isLocal :: String -> Bool
@@ -172,7 +172,7 @@ removeIndexHtml item =
 removeIndexStr :: String -> String
 removeIndexStr url =
     case splitFileName url of
-        (dir, "index.html") -> dropTrailingPathSeparator dir
+        (dir, "index.html") -> dir
         _ -> url
 
 applyTemplateByField :: String -> Item String -> Compiler (Item String)
