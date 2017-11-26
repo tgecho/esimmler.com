@@ -25,9 +25,9 @@ main = hakyll $ do
         route   idRoute
         compile copyFileCompiler
     
-    -- match "css/main.scss" $ do
-    --     route $ setExtension "css"
-    --     compile (compileSass "css")
+    match "css/main.scss" $ do
+        route $ setExtension "css"
+        compile (compileSass "css")
 
     -- matchMetadata "demos/**" (isJust . lookupString "layout") $ do
     --     route $ setExtension "html"

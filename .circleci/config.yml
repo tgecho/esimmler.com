@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: fpco/stack-build
+      - image: fpco/stack-build:lts-9.14
     environment:
       - LC_ALL: C.UTF-8
     branches:
@@ -16,6 +16,9 @@ jobs:
       - run:
           name: Build site
           command: |
+            add-apt-repository ppa:tista/build
+            apt-get update
+            apt-get --yes --force-yes install sassc
             stack setup
             stack build
             stack exec site rebuild
