@@ -2,6 +2,8 @@
 title: Elm range syntax
 ---
 
+test
+
 I recently stumbled around for more than a few moments searching for a canonical way to generate a range of numbers in [Elm](http://elm-lang.org). I finally found a working example by searching for "[haskell range syntax](https://www.google.com/search?q=haskell+range+syntax)".
 
 ```elm
