@@ -2,9 +2,8 @@ version: 2
 jobs:
   build:
     docker:
-      - image: tgecho/esimmler-com
+      - image: fpco/stack-build
     environment:
-      - LANG: en_US.UTF-8
       - LC_ALL: C.UTF-8
     branches:
       only:
@@ -13,15 +12,17 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-site-{{ checksum "/usr/local/bin/site" }}
+            - v1-site-{{ checksum "esimmler-com.cabal" }}
       - run:
           name: Build site
           command: |
-            locale
-            site build
+            stack setup
+            stack build
+            stack exec site rebuild
       - save_cache:
           paths:
-            - _site
-          key: v1-stack-work-{{ checksum "/usr/local/bin/site" }}
+            - .stack-work
+            - /root/.stack/
+          key: v1-stack-work-{{ checksum "esimmler-com.cabal" }}
       - store_artifacts:
           path: _site
