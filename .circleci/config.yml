@@ -18,7 +18,7 @@ jobs:
           command: |
             add-apt-repository ppa:tista/build
             apt-get update
-            apt-get --yes --force-yes install sassc
+            apt-get --yes install sassc python-pip libpython-dev
             pip install awscli
             stack setup
             stack build
