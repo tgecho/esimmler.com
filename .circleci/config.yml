@@ -12,7 +12,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-site-{{ checksum "esimmler-com.cabal" }}
+            - v1-stack-work-{{ checksum "esimmler-com.cabal" }}
       - run:
           name: Build site
           command: |
