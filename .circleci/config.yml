@@ -5,9 +5,6 @@ jobs:
       - image: fpco/stack-build:lts-9.14
     environment:
       - LC_ALL: C.UTF-8
-    branches:
-      only:
-        - hakyll
     steps:
       - checkout
       - restore_cache:
