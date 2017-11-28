@@ -42,17 +42,15 @@ jobs:
           name: Upload
           working_directory: _site
           command: |
-            aws s3 sync . s3://staging.esimmler.com/$CIRCLE_BRANCH/ --delete
-
             if [ -n "$CIRCLE_PR_NUMBER" ]; then
               aws s3 sync . s3://staging.esimmler.com/pr-$CIRCLE_PR_NUMBER/ --delete
             fi
 
             if [ "$CIRCLE_BRANCH" == "master" ]; then
               aws s3 sync . s3://esimmler.com/ --delete
+            else
+              aws s3 sync . s3://staging.esimmler.com/$CIRCLE_BRANCH/ --delete
             fi
-
-            echo "http://staging.esimmler.com.s3-website-us-east-1.amazonaws.com/$CIRCLE_BRANCH/"
 
             if [ -n "$CIRCLE_PR_NUMBER" ]; then
               echo "http://staging.esimmler.com.s3-website-us-east-1.amazonaws.com/pr-$CIRCLE_PR_NUMBER/"
@@ -61,4 +59,6 @@ jobs:
             if [ "$CIRCLE_BRANCH" == "master" ]; then
               echo "http://esimmler.com.s3-website-us-east-1.amazonaws.com/"
               echo "https://esimmler.com/"
+            else
+              echo "http://staging.esimmler.com.s3-website-us-east-1.amazonaws.com/$CIRCLE_BRANCH/"
             fi
