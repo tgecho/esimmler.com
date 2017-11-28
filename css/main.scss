@@ -40,10 +40,12 @@ html {
     }
 }
 .site-header {
-    overflow: hidden;
-}
-.site-title {
     text-align: center;
+    padding-top: $baseline;
+
+    .site-title {
+        margin-top: 0;
+    }
 }
 .post-header {
     .post-title {
