@@ -1,0 +1,47 @@
+---
+siteTitle: Whoops!
+title: Page not found
+layout: error
+---
+$partial("templates/_header.html")$
+
+<style>
+    html {
+        filter: invert(100%);
+        background: #fff;
+    }
+    body {
+        background: #fff;
+        min-height: 100vh;
+    }
+    .site-title {
+        font-family: "Comic Sans MS", cursive, sans-serif;
+    }
+    main {
+        text-align: center;
+    }
+    main img {
+        filter: invert(100%);
+    }
+</style>
+
+<header class="site-header">
+    <h1 class="site-title">
+        <a href="/">Whoops!</a>
+    </h1>
+</header>
+
+<main>
+    <p>
+        There doesn't appear to be anything here! Either someone (likely me) has horribly misdirected you or
+        <br />
+        your subconscious nostalgia has drawn you inexorably to this dark, dusty corner of my site.
+    </p>
+    <p>
+        <a href="/"><img src="/images/construction.gif" alt="Digging construction worker" /></a>
+    </p>
+</main>
+
+$partial("templates/_blurb.html")$
+
+$partial("templates/_footer.html")$

@@ -78,6 +78,13 @@ main = hakyll $ do
                 >>= applyAsTemplate indexCtx
                 >>= loadAndApplyTemplate "templates/default.html" indexCtx
                 >>= relativizeUrls
+
+    match "error.html" $ do
+        route idRoute
+        compile $ do
+            getResourceBody
+                >>= applyAsTemplate siteCtx
+                >>= relativizeUrls
     
     match "templates/*" $ compile templateBodyCompiler
 
