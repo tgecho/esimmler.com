@@ -21,7 +21,6 @@ Next you need to identify a matching EC2 image with the [AMI Locator](http://clo
 
 With that, we can fill out a rudimentary `packer.conf`. This will launch matching machines locally and on AWS. [Provisioning steps](https://www.packer.io/docs/templates/provisioners.html) are very situation dependent, so I left them out.
 
-{% raw %}
 ```json
 {
     "variables": {
@@ -64,7 +63,6 @@ With that, we can fill out a rudimentary `packer.conf`. This will launch matchin
     ]
 }
 ```
-{% endraw %}
 
 You can use the above config with this command (omit the -only flag to enable the AWS builder).
 
