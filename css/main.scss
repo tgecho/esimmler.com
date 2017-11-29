@@ -63,6 +63,10 @@ html {
 
 .blurb {
     text-align: center;
+
+    h1 {
+        margin: 0;
+    }
     p {
         margin-bottom: 0;
     }
@@ -131,6 +135,7 @@ td {
 
 blockquote {
   margin-left: 0;
+  margin-right: 0;
   padding-left: $baseline - .4rem;
   border-left: solid .4rem #ddd;
   opacity: .8;
