@@ -27,16 +27,21 @@ html {
     .post {
         $border: 1px solid $secondary-color;
         margin-bottom: $baseline;
+    }
+}
+hr {
+    margin: $baseline 0;
+    font-size: $baseline;
+    height: 1em;
+    font-family: "Calluna", serif;
+    border: none;
 
-        &:after {
-            content: "⁂"; // https://en.wikipedia.org/wiki/Asterism_(typography)
-            display: block;
-            font-size: $baseline;
-            font-family: "Calluna", serif;
-            text-align: center;
-            color: lighten(saturate($accent-color, 10), 20);
-            clear: both;
-        }
+    &:after {
+        content: "⁂"; // https://en.wikipedia.org/wiki/Asterism_(typography)
+        display: block;
+        text-align: center;
+        color: lighten(saturate($accent-color, 10), 20);
+        clear: both;
     }
 }
 .site-header {
@@ -54,6 +59,10 @@ html {
         &+time {
             margin-top: 0;
         }
+    }
+
+    [rel="author"]::before {
+        content: "‹ "; //&lsaquo;
     }
 }
 

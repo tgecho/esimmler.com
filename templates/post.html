@@ -4,13 +4,15 @@ $partial("templates/_header.html")$
 	<header class="post-header">
         <h2 class="post-title">$preventLonelyLastWord(title)$</h2>
 		<time datetime="$timestamp$">$date$</time>
-		<a href="/" rel="author">&lsaquo; by $author$</a>
+		<a href="/" rel="author">by $author$</a>
     </header>
 
 	<main>
 		$body$
 	</main>
 </article>
+
+<hr />
 
 $partial("templates/_blurb.html")$
 $partial("templates/_footer.html")$
