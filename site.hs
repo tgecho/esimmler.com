@@ -27,7 +27,7 @@ main = hakyll $ do
     
     match "css/main.scss" $ do
         route $ setExtension "css"
-        compile (compileSass "css")
+        compile (compileSass "css" >>= saveSnapshot "main")
 
     -- matchMetadata "demos/**" (isJust . lookupString "layout") $ do
     --     route $ setExtension "html"
@@ -71,7 +71,7 @@ main = hakyll $ do
                     <> postCtx
                     
                 indexCtx =
-                       listField "posts" postListCtx (return $ take 5 posts)
+                       listField "posts" postListCtx (return $ take 4 posts)
                     <> siteCtx
 
             getResourceBody
@@ -113,6 +113,7 @@ siteCtx =
        constField "siteTitle" "Erik Simmler"
     <> constField "author" "Erik Simmler"
     <> constField "feedUrl" "/feed.atom"
+    <> field "mainCss" (\_ -> loadSnapshotBody (fromFilePath "css/main.scss") "main")
     <> preventLonelyLastWord
     <> defaultContext
     
