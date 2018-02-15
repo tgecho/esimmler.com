@@ -52,35 +52,36 @@
         margin-left: $baseline;
     }
 
-    .post-header [rel="author"] {
+    [rel="author"] {
         text-decoration: none;
         font-size: .9em;
     }
 
-    #body-wrap:target {
-        @include baseline-grid($baseline, $body-width: $max-width, $columns: 9, $gutter-width: $baseline);
-    }
+    // Debug tool
+    // #body-wrap:target {
+    //     @include baseline-grid($baseline, $body-width: $max-width, $columns: 9, $gutter-width: $baseline);
+    // }
 
     // tweaks for troublesome heading first letters
-    .A {
-        text-indent: .04em;
-    }
-    .B, .C, .D, .E, .F, .G, .I, .K, .L, .M, .N, .O, .P, .Q, .R, .S {
-        text-indent: -.025em;
-    }
-    .T, .Y {
-        text-indent: .02em;
-    }
-    .V, .W {
-        text-indent: .03em;
-    }
-    .X {
-        text-indent: .01em;
-    }
-    .H {
-        text-indent: -.04em;
-    }
-    .Z {
-        text-indent: -.01em;
-    }
+    // .A {
+    //     text-indent: .04em;
+    // }
+    // .B, .C, .D, .E, .F, .G, .I, .K, .L, .M, .N, .O, .P, .Q, .R, .S {
+    //     text-indent: -.025em;
+    // }
+    // .T, .Y {
+    //     text-indent: .02em;
+    // }
+    // .V, .W {
+    //     text-indent: .03em;
+    // }
+    // .X {
+    //     text-indent: .01em;
+    // }
+    // .H {
+    //     text-indent: -.04em;
+    // }
+    // .Z {
+    //     text-indent: -.01em;
+    // }
 }

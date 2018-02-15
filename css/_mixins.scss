@@ -1,18 +1,3 @@
-@mixin link-color($link, $hover: null, $visited: null, $active: null, $intensity: 1) {
-    color: $link;
-
-    &:visited {
-        color: $visited or darken(desaturate($link, $intensity*10), $intensity*10);;
-    }
-    &:hover {
-        color: $hover or lighten(saturate($link, $intensity*10), $intensity*20);
-    	transition: color 0.2s ease;
-    }
-    &:active {
-        color: $active or lighten(saturate($link, $intensity*25), $intensity*20);
-    }
-}
-
 /* Sass Mixin that generates a Baseline Grid */
 /* by: Mike Morrison, Soholaunch.com */
 /* You don't have to leave this credit comment in, but it would be nice of you. */

@@ -12,28 +12,36 @@ body {
 }
 
 a {
-    @include link-color($link-color);
+    color: $link-color;
+
+    &:visited:not(:hover) {
+        filter: brightness(.75);
+    }
+    &:hover {
+        filter: saturate(110%) brightness(1.3);
+        transition: filter 0.25s ease;
+    }
+    &:active {
+        filter: saturate(200%);
+    }
 }
-.post-header [rel="author"] {
-    @include link-color($primary-color, $intensity: .5);
+[rel="author"] {
+    color: $primary-color
 }
 
 h1 {
 	color: $primary-color;
-	a {
-	    @include link-color($primary-color, $intensity: .5);
-	}
 }
 h2 {
 	color: $accent-color;
-    a {
-        @include link-color($accent-color, $intensity: .5);
-    }
 }
 h3, h4, h5, h6 {
 	color: $secondary-color;
+}
+
+h1, h2, h3, h4, h5, h6 {
     a {
-        @include link-color($secondary-color, $intensity: .5);
+        color: inherit;
     }
 }
 
