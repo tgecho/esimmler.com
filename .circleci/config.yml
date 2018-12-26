@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: fpco/stack-build:lts-9.14
+      - image: fpco/stack-build:lts
     environment:
       - LC_ALL: C.UTF-8
     steps:
@@ -14,9 +14,10 @@ jobs:
       - run:
           name: Install
           command: |
-            add-apt-repository ppa:tista/build
+            wget -P /usr/local/bin https://github.com/tuhlmann/sassc-binaries/raw/master/v3.4.1/ubuntu/amd64/sassc
+            chmod +x /usr/local/bin/sassc
             apt-get update
-            apt-get --yes install sassc python-pip libpython-dev
+            apt-get --yes install python-pip libpython-dev
             pip install awscli
 
       - run:
@@ -34,7 +35,7 @@ jobs:
 
       - store_artifacts:
           path: _site
-            
+
       - deploy:
           name: Upload
           working_directory: _site
