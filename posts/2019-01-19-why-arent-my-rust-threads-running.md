@@ -50,7 +50,7 @@ Worker 1 did some work
 Worker 1 did some work
 ```
 
-One point of confusion was that the threads had spawned as intended in the first version of my code. I later realized the key difference was that I had used a `for` loop.
+I was confused. The threads had spawned as intended in the first version of my code. I later realized the key difference was that I had used a `for` loop.
 
 ```rust
 for worker_id in 0..2 {
