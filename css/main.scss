@@ -18,7 +18,7 @@ html {
 #body-wrap {
     max-width: $max-width;
     margin: 0 auto;
-    
+
     padding: 0 $baseline/2;
     @media screen and (min-width: 550px) {
         padding: 0 $baseline;
@@ -144,4 +144,11 @@ blockquote {
   padding-left: $baseline - .4rem;
   border-left: solid .4rem #ddd;
   opacity: .8;
+}
+
+pre.sourceCode {
+  background: #f7f7f3;
+  padding: .5em .9em;
+  border-radius: .5em;
+  overflow-x: auto;
 }
