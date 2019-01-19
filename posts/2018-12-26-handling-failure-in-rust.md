@@ -100,7 +100,7 @@ fn img_err_to_status(img_err: image::ImageError) -> rocket::http::Status {
             // of potential cases that I don't care to handle specifically.
             _ => Status::InternalServerError,
         },
-        // There are a bunch of ways an image can be invalid otherwise
+        // There are a bunch of ways an image can be invalid or otherwise
         // unopenable, but I don't see much value in going into them here.
         _ => Status::InternalServerError,
     }
