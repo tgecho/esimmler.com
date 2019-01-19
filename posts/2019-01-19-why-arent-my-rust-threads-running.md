@@ -66,7 +66,7 @@ When I decided to capture the `JoinHandle`s so I could explicitly wait for them 
 let handles = (0..2).map(|worker_id| {
     thread::spawn(move || {
         //...
-    });
+    })
 }
 // ...
 for handle in handles {
