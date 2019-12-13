@@ -1,12 +1,12 @@
----
-title: Handling failure in Rust
----
++++
+title = "Handling failure in Rust"
++++
 
 I've begun to seriously dig into the [Rust programming language](https://www.rust-lang.org/). The learning curve is real, but I already appreciate the work they've put into ergonomics.
 
 I'm writing a simple photo thumbnail endpoint using the [Rocket web framework](https://rocket.rs/) ([v0.4](https://rocket.rs/v0.4/guide/)) and [Image library](https://github.com/PistonDevelopers/image) ([v0.20.1](https://docs.rs/crate/image/0.20.1)). My first pass used a lot of unwrapping to ignore potential errors. A lot can go wrong, even in this "simple" case.
 
-<!--more-->
+<!-- more -->
 
 > **Note**: This post assumes some [minimal familiarity with Rust](https://doc.rust-lang.org/). I've omitted `extern`, `use` and other pesky logistics for the sake of brevity.
 

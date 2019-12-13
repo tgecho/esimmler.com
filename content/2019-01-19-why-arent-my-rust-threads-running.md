@@ -1,10 +1,10 @@
----
-title: Why aren't my Rust threads running?
----
++++
+title = "Why aren't my Rust threads running?"
++++
 
 I got a bit tangled up while experimenting with threads and channels in Rust. The compiler prevented any undefined behavior or memory corruption, but it can only do so much. My problems came from a shaky understanding of the language's fundamentals and the inherent complexity of parallel programming. Or, in my case, attempted parallel programming.
 
-<!--more-->
+<!-- more -->
 
 The following code is the result of stripping away a lot of channel manipulation and other unrelated complexity (a story for another time). The Rust compiler did not directly point out that my logic was faulty, but much of the friction I ran into hinted at the underlying problem.
 
@@ -32,6 +32,7 @@ fn main() {
     }
 }
 ```
+
 [Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=d0b3006c3c84906c5e19ce26ec0ca873)
 
 The intent was that the threads run in parallel. At the end of the function, we'd wait on them to complete before exiting. Unfortunately, the output showed that they were running one after another.
@@ -132,9 +133,11 @@ fn main() {
     }
 }
 ```
+
 [Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=115ba06cbc7d8e9c1c699503e3ae5127)
 
 It worked!
+
 ```
 Spawning worker 0
 Worker 0 has spawned

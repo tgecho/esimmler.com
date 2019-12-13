@@ -1,25 +1,24 @@
----
-siteTitle: Whoops!
-title: Page not found
-layout: error
----
-$partial("templates/_header.html")$
+{% include "_header.html" %}
 
 <style>
     html {
         filter: invert(100%);
         background: #fff;
     }
+
     body {
         background: #fff;
         min-height: 100vh;
     }
+
     .site-title {
         font-family: "Comic Sans MS", cursive, sans-serif;
     }
+
     main {
         text-align: center;
     }
+
     main img {
         filter: invert(100%);
     }
@@ -27,7 +26,7 @@ $partial("templates/_header.html")$
 
 <header class="site-header">
     <h1 class="site-title">
-        <a href="/">Whoops!</a>
+        <a href="{{ config.base_url | safe }}/">Whoops!</a>
     </h1>
 </header>
 
@@ -37,12 +36,12 @@ $partial("templates/_header.html")$
         your subconscious nostalgia has drawn you inexorably to this dark, dusty corner of my site.
     </p>
     <p>
-        <a href="/">
-            <img src="/images/construction.gif" alt="Digging construction worker" height="38" width="38" />
+        <a href="{{ config.base_url | safe }}/">
+            <img src="{{ config.base_url | safe }}/construction.gif" alt="Digging construction worker" height="38"
+                width="38" />
         </a>
     </p>
 </main>
 
-$partial("templates/_blurb.html")$
-
-$partial("templates/_footer.html")$
+{% include "_blurb.html" %}
+{% include "_footer.html" %}

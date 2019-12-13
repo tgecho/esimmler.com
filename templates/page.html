@@ -1,0 +1,16 @@
+{% include "_header.html" %}
+
+<article class="post">
+    <header class="post-header">
+        <h2 class="post-title">{{ page.title }}</h2>
+        <time datetime="{{ page.date }}">{{ page.date | date(format="%h %d, %Y") }}</time>
+        <a href="{{ config.base_url | safe }}/" rel="author">by {{ config.extra.author }}</a>
+    </header>
+
+    <main>
+        {{ page.content | safe }}
+    </main>
+</article>
+
+{% include "_blurb.html" %}
+{% include "_footer.html" %}

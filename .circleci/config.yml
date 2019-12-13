@@ -2,52 +2,36 @@ version: 2
 jobs:
   build:
     docker:
-      - image: fpco/stack-build:lts
+      - image: ubuntu
     environment:
-      - LC_ALL: C.UTF-8
+      - DEBIAN_FRONTEND: noninteractive
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - v1-stack-work-{{ checksum "esimmler-com.cabal" }}
 
       - run:
           name: Install
           command: |
-            wget -P /usr/local/bin https://github.com/tuhlmann/sassc-binaries/raw/master/v3.4.1/ubuntu/amd64/sassc
-            chmod +x /usr/local/bin/sassc
             apt-get update
-            apt-get --yes install python-pip libpython-dev
-            pip install awscli
-
-      - run:
-          name: Build
-          command: |
-            stack setup
-            stack build
-            stack exec site rebuild
-
-      - save_cache:
-          paths:
-            - .stack-work
-            - /root/.stack/
-          key: v1-stack-work-{{ checksum "esimmler-com.cabal" }}
-
-      - store_artifacts:
-          path: _site
+            apt-get install wget tar awscli -y
+            wget -qO- http://github.com/getzola/zola/releases/download/v0.9.0/zola-v0.9.0-x86_64-unknown-linux-gnu.tar.gz | tar -xvz
 
       - deploy:
-          name: Upload
-          working_directory: _site
+          name: Build and Upload
           command: |
             if [ -n "$CIRCLE_PR_NUMBER" ]; then
-              aws s3 sync . s3://staging.esimmler.com/pr-$CIRCLE_PR_NUMBER/ --delete
+              ./zola build --base-url http://staging.esimmler.com.s3-website-us-east-1.amazonaws.com/pr-$CIRCLE_PR_NUMBER
+              cp public/rss.xml public/feed.atom
+              aws s3 sync public s3://staging.esimmler.com/pr-$CIRCLE_PR_NUMBER/ --delete --acl public-read
             fi
 
             if [ "$CIRCLE_BRANCH" == "master" ]; then
-              aws s3 sync . s3://esimmler.com/ --delete
+              ./zola build
+              cp public/rss.xml public/feed.atom
+              aws s3 sync public s3://esimmler.com/ --delete --acl public-read
             else
-              aws s3 sync . s3://staging.esimmler.com/$CIRCLE_BRANCH/ --delete
+              ./zola build --base-url http://staging.esimmler.com.s3-website-us-east-1.amazonaws.com/$CIRCLE_BRANCH
+              cp public/rss.xml public/feed.atom
+              aws s3 sync public s3://staging.esimmler.com/$CIRCLE_BRANCH/ --delete --acl public-read
             fi
 
             if [ -n "$CIRCLE_PR_NUMBER" ]; then

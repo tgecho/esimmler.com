@@ -1,6 +1,6 @@
----
-title: An Opinionated Webpack Tutorial
----
++++
+title = "An Opinionated Webpack Tutorial"
++++
 
 I've wasted a lot of time trying to sort out my javascript workflow, and Webpack has brought me very close to the smooth and drama free experience I'm been looking for. The documentation is a bit rough, so I posted a [step by step Webpack tutorial](https://github.com/tgecho/webpack-tutorial) based on what I've learned so far.
 
