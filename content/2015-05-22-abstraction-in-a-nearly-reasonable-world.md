@@ -1,6 +1,6 @@
----
-title: Abstraction in a nearly reasonable world
----
++++
+title = "Abstraction in a nearly reasonable world"
++++
 
 I like systems. I'm always fascinated by wonderfully designed systems which are as useful as they are beautiful. In my own work, I often feel a strong pull to "invent" an elegant and general "solution". The result, more often then not, exhibits neither trait.
 

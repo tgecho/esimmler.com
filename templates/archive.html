@@ -1,4 +1,19 @@
-<h2>Archive</h2>
-$partial("templates/_post_list.html")$
+{% include "_header.html" %}
+{% include "_title.html" %}
 
-$partial("templates/_blurb.html")$
+<h2>Archive</h2>
+<ul class="posts-list">
+    {% set section = get_section(path="_index.md") %}
+    {% for page in section.pages %}
+    {% if page.path != "archive/" %}
+    <li>
+        <a href="{{ page.permalink }}" title="{{ page.title }}">
+            <time datetime="{{ page.date }}">{{ page.date | date(format="%h %d, %Y") }}</time>
+            {{ page.title }}
+        </a>
+    </li>
+    {% endif %}
+    {% endfor %}
+</ul>
+
+{% include "_blurb.html" %}

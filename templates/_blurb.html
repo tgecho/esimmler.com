@@ -1,15 +1,15 @@
 <aside class="blurb">
-	$if(home)$$else$
+	{% if current_path and current_path != "/" and current_path != "archive/" %}
 	<h1><a href="/">Erik Simmler</a></h1>
-	$endif$
+	{% endif %}
 
 	<p>Software developer, internaut and irregular rambler.</p>
 
 	<ul>
-		<li><a href="/">home</a></li>
-		<li><a href="/archive/">archive</a></li>
-		<li><a href="$feedUrl$">feed</a></li>
-		<li><a href="https://github.com/tgecho">github</a></li>
-		<li><a href="https://twitter.com/tgecho">twitter</a></li>
+		<li><a href="/">Home</a></li>
+		<li><a href="/archive/">Archive</a></li>
+		<li><a href="{{ config.extra.rss_path }}">Feed</a></li>
+		<li><a href="https://github.com/tgecho">Github</a></li>
+		<li><a href="https://twitter.com/tgecho">Twitter</a></li>
 	</ul>
 </aside>

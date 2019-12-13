@@ -1,6 +1,6 @@
----
-title: Arrow functions and Javascript's syntactic baggage
----
++++
+title = "Arrow functions and Javascript's syntactic baggage"
++++
 
 I recently learned two new things about Javascript. The first discovery makes me feel silly. Somehow I missed that there is a multiline form as well as the short, single line form.
 
@@ -13,7 +13,7 @@ const long = n => {
 ```
 This isn't a huge paradigm shift, but it does mean that there are far fewer cases in which the old `function(){}` syntax makes sense beyond familiarity.
 
-<!--more-->
+<!-- more -->
 
 Next, I learned why my attempts to return an object from a shorthand arrow function always seemed to fail unhappily.
 

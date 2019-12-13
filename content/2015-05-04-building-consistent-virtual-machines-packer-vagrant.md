@@ -1,6 +1,6 @@
----
-title: Building consistent virtual machines with Packer and Vagrant
----
++++
+title = "Building consistent virtual machines with Packer and Vagrant"
++++
 
 I've been using [Vagrant](https://www.vagrantup.com/) to manage local development environments for a while, but there are subtle differences between the base Ubuntu Vagrant box and the [Ubuntu Cloud Images](http://cloud-images.ubuntu.com/) I typically use in production. Since the base set of packages don't match exactly, builds would occasionally fail on AWS after working fine locally. While I always caught these issues before they went live, the mismatch was annoying at best.
 

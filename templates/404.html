@@ -1,25 +1,24 @@
----
-siteTitle: Whoops!
-title: Page not found
-layout: error
----
-$partial("templates/_header.html")$
+{% include "_header.html" %}
 
 <style>
     html {
         filter: invert(100%);
         background: #fff;
     }
+
     body {
         background: #fff;
         min-height: 100vh;
     }
+
     .site-title {
         font-family: "Comic Sans MS", cursive, sans-serif;
     }
+
     main {
         text-align: center;
     }
+
     main img {
         filter: invert(100%);
     }
@@ -38,11 +37,10 @@ $partial("templates/_header.html")$
     </p>
     <p>
         <a href="/">
-            <img src="/images/construction.gif" alt="Digging construction worker" height="38" width="38" />
+            <img src="/construction.gif" alt="Digging construction worker" height="38" width="38" />
         </a>
     </p>
 </main>
 
-$partial("templates/_blurb.html")$
-
-$partial("templates/_footer.html")$
+{% include "_blurb.html" %}
+{% include "_footer.html" %}

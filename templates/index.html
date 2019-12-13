@@ -1,0 +1,32 @@
+{% include "_header.html" %}
+{% include "_title.html" %}
+{% include "_blurb.html" %}
+
+{% for page in section.pages | slice(end=4) %}
+<article class="post">
+    <header class="post-header">
+        <h2 class="post-title">
+            <a href="{{ page.permalink }}">{{ page.title }}</a>
+        </h2>
+        <time datetime="{{ page.date }}">{{ page.date | date(format="%h %d, %Y") }}</time>
+    </header>
+
+    {% if page.summary %}
+    <div class="excerpt">
+        {{ page.summary | safe }}
+        <a href="{{ page.permalink }}" class="more-link">Keep reading &rsaquo;</a>
+    </div>
+    {% else %}
+    <div class="excerpt">
+        {{ page.content | safe }}
+    </div>
+    {% endif %}
+</article>
+<hr />
+{% endfor %}
+
+<aside>
+    <p>Still hungry? You can find more where that came from in the <a href="/archive/">archive</a>.</p>
+</aside>
+
+{% include "_footer.html" %}
