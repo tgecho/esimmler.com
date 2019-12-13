@@ -4,7 +4,7 @@
     <header class="post-header">
         <h2 class="post-title">{{ page.title }}</h2>
         <time datetime="{{ page.date }}">{{ page.date | date(format="%h %d, %Y") }}</time>
-        <a href="/" rel="author">by {{ config.extra.author }}</a>
+        <a href="{{ config.base_url | safe }}/" rel="author">by {{ config.extra.author }}</a>
     </header>
 
     <main>

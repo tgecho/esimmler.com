@@ -26,7 +26,7 @@
 
 <header class="site-header">
     <h1 class="site-title">
-        <a href="/">Whoops!</a>
+        <a href="{{ config.base_url | safe }}/">Whoops!</a>
     </h1>
 </header>
 
@@ -36,8 +36,9 @@
         your subconscious nostalgia has drawn you inexorably to this dark, dusty corner of my site.
     </p>
     <p>
-        <a href="/">
-            <img src="/construction.gif" alt="Digging construction worker" height="38" width="38" />
+        <a href="{{ config.base_url | safe }}/">
+            <img src="{{ config.base_url | safe }}/construction.gif" alt="Digging construction worker" height="38"
+                width="38" />
         </a>
     </p>
 </main>
