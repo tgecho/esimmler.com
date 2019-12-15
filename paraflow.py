@@ -35,6 +35,8 @@ def run(func, completed=None, scope=None):
         completed = {}
     if scope is None:
         scope = inspect.currentframe().f_back.f_locals
+    completed = {} if completed is None else completed
+    scope = inspect.currentframe().f_back.f_locals if scope is None else scope
 
     if func not in completed:
         deps = [scope[p] for p in inspect.signature(func).parameters]
