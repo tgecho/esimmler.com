@@ -1,6 +1,5 @@
 +++
 title = "A tiny dependency injectorish snippet"
-draft = true
 date = 2019-12-15
 +++
 
