@@ -10,6 +10,8 @@ To that end, I've been using a minimal implementation of the concept in a few pl
 <!-- more -->
 
 ```py
+# License: MIT (http://opensource.org/licenses/MIT)
+
 import inspect
 
 def run(func, completed=None, scope=None):
@@ -61,5 +63,3 @@ if __name__ == "__main__":
 ```
 
 I would not suggest architecting a non-trivial app around this little snippet. It is sure to have dark corners, it doesn't attempt to cover many edge cases, and the indirection has potential to confuse unwitting visitors. However, if your task is complex enough to benefit from being able to wire up a little dependency graph and this style brings you joy, feel free to copy/paste it and go to town.
-
-As far as I'm concerned it's public domain (though as always IANAL).
