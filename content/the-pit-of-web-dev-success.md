@@ -1,5 +1,6 @@
 +++
 title = "Digging a pit of success for web development (draft)"
+date = 2020-07-02
 draft = true
 +++
 
@@ -160,7 +161,7 @@ Setting aside (for now) the dependency on a big pile of build tooling and other 
 
 1. We haven't loosely tied a pile of very different technologies together with string.
 1. Our state is explicitly managed in one place.
-1. Patterns of reuse are are standard and idiomatic.
+1. Patterns of reuse are standard and idiomatic.
 1. Since it's all in one common language environment, it's actually quite plausible to use [static types](https://www.typescriptlang.org/).
 
 It's far from perfect, but hopefully we can agree that the appeal is understandable.
