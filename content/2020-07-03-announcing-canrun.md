@@ -1,5 +1,5 @@
 +++
-title = "Announcing Canrun: A logic thing I don't fully understand"
+title = "Announcing Canrun: A logic programming library inspired by the *Kanren family"
 +++
 
 I keep bumping into [logic programming](https://en.wikipedia.org/wiki/Logic_programming), especially in the form of the [\*Kanren](http://minikanren.org/) family. In keeping with tradition, this is my attempt to implement it in Rust, my current hobby language of choice.
