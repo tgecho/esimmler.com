@@ -1,5 +1,6 @@
 +++
 title = "Digging a pit of success for web development (draft)"
+date = 2020-07-02
 draft = true
 +++
 
