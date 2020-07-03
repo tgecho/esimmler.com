@@ -8,6 +8,10 @@ After a few false starts, I got a not completely horrific proof of concept runni
 
 The end result? I'm pretty satisfied with the learning experience I got out of it, so any value in the actual artifact is just gravy.
 
+- Github: [https://github.com/tgecho/canrun_rs](https://github.com/tgecho/canrun_rs)
+- Crates.io: [https://crates.io/crates/canrun](https://crates.io/crates/canrun)
+- Docs.rs: [https://docs.rs/crate/canrun](https://docs.rs/crate/canrun)
+
 ## An Introduction
 
 I'm still a novice, so take everything I say with a grain of salt.
@@ -141,3 +145,9 @@ I've approached this as an engineering problem, with very little theoretical rig
 Sometimes the types get a little scary, but overall I'm quite pleased with how fluent Rust is able to be with a little architectural care and feeding.
 
 How much I'll actually work on this project is completely dependant on how applicable it actually ends up being to my other experiments. Or how much I keep [nerd sniping](https://xkcd.com/356/) myself.
+
+### Links
+
+- Github: [https://github.com/tgecho/canrun_rs](https://github.com/tgecho/canrun_rs)
+- Crates.io: [https://crates.io/crates/canrun](https://crates.io/crates/canrun)
+- Docs.rs: [https://docs.rs/crate/canrun](https://docs.rs/crate/canrun)
