@@ -6,7 +6,14 @@
         font-size: 100%;
         line-height: $baseline;
     }
-    h1, h2, h3, h4, h5, h6, dt {
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    dt {
         font-family: "Calluna", serif;
         margin: 0;
         font-weight: normal;
@@ -16,38 +23,101 @@
             text-decoration: none;
         }
     }
-    h1, h2, h3, h4, h5, h6, p, ul, ol, dl, pre {
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    ul,
+    ol,
+    dl,
+    pre {
         margin: $baseline 0;
     }
+
     td {
-      h1, h2, h3, h4, h5, h6, p, ul, ol, dl, pre {
-          margin: 0;
-      }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        ul,
+        ol,
+        dl,
+        pre {
+            margin: 0;
+        }
     }
 
-    h1 { font-size: 3rem; }
-    h2 { font-size: 2.2rem; }
-    h3, .blurb h1 { font-size: 1.75rem; }
-    h4 { font-size: 1.5rem; }
-    h5, dt { font-size: 1.25rem; }
-    h6 { font-size: 1rem; }
+    h1 {
+        font-size: 3rem;
+    }
+
+    h2 {
+        font-size: 2.2rem;
+    }
+
+    h3,
+    .blurb h1 {
+        font-size: 1.75rem;
+    }
+
+    h4 {
+        font-size: 1.5rem;
+    }
+
+    h5,
+    dt {
+        font-size: 1.25rem;
+    }
+
+    h6 {
+        font-size: 1rem;
+    }
 
     @media screen and (max-width: 550px) {
-        h1 { font-size: 2.2rem; }
-        h2 { font-size: 1.75rem; }
-        h3 { font-size: 1.5rem; }
-        h4 { font-size: 1.25rem; }
-        h5, dt { font-size: 1.15rem; }
-        h6 { font-size: 1rem; }
+        h1 {
+            font-size: 2.2rem;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+        }
+
+        h4 {
+            font-size: 1.25rem;
+        }
+
+        h5,
+        dt {
+            font-size: 1.15rem;
+        }
+
+        h6 {
+            font-size: 1rem;
+        }
     }
 
     body {
         font-family: "Calluna Sans", sans-serif;
     }
-    ol, ul {
+
+    ol,
+    ul {
         padding-left: $baseline*.35;
         list-style-position: inside;
     }
+
     dd {
         margin-left: $baseline;
     }
@@ -84,4 +154,18 @@
     // .Z {
     //     text-indent: -.01em;
     // }
+}
+
+.footnote-definition {
+    font-size: .9em;
+    display: flex;
+}
+
+.footnote-definition p {
+    margin: 0;
+}
+
+.footnote-definition-label {
+    margin: -0.5em 0.5em 0 0;
+    font-weight: bold;
 }
