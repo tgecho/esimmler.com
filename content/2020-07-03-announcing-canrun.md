@@ -138,13 +138,15 @@ This is mostly so I can type `logic!`
 
 ### General Correctness
 
-I've approached this as an engineering problem, with very little theoretical rigor or understanding of the prior art. This has been fun and enlightening, but I have no doubt that there are holes.
+I've approached this as an engineering problem, with very little theoretical rigor or deep understanding of the prior art. This has been fun and enlightening, but I have no doubt that there are holes.
 
 ## Conclusion
 
 Sometimes the types get a little scary, but overall I'm quite pleased with how fluent Rust is able to be with a little architectural care and feeding.
 
 How much I'll actually work on this project is completely dependant on how applicable it actually ends up being to my other experiments. Or how much I keep [nerd sniping](https://xkcd.com/356/) myself.
+
+**Next:** [A deeper dive into how Canrun actually works and how it came to be](../building-canrun-part-1).
 
 ### Links
 
