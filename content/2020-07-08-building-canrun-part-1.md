@@ -4,19 +4,15 @@ title = "Building Canrun: A statically typed logic programming library for Rust 
 
 [Canrun](https://github.com/tgecho/canrun_rs) is a new logic programming library for Rust with static types and constraints.
 
-In the [announcement post](./announcing-canrun/) I mentioned going through multiple fundamental revisions before settling on the current approach. Here I'll try to do a quick recap for two reasons: 1) I think it's neat, and 2) hopefully I'll snag the attention of someone with deeper experience and a willingness to share tips.
+In my [initial post](./announcing-canrun/) I mentioned going through a few fundamental revisions before settling on the current approach. Here I'll try to do a quick recap for two reasons: 1) I think it's neat, and 2) with luck I'll snag the attention of someone with deeper experience and a willingness to share some tips.
 
-I'm sorry to say that despite [The Reasoned Schemer](http://minikanren.org/#trs)'s status as the classic book on [miniKanren](http://minikanren.org/), it never really clicked for me. Similarly, most of the other resources I've found on logic programming were either too deep or too toylike. This is not a critism or complaint! This space is a niche, and I'm very grateful to those who have shared their work.
+My first successful attempt was actually based on an article by Tom Stuart titled ["Hello, declarative world"](https://codon.com/hello-declarative-world)[^reading], which described a way to implement [μKanren](http://webyrd.net/scheme-2013/papers/HemannMuKanren2013.pdf) in Ruby[^languages]. I recommend reading that if you find yourself confused about any of the "why" I gloss over here.
 
-One of the first articles that really helped was Tom Stuart's ["Hello, declarative world"](https://codon.com/hello-declarative-world), which described a way to implement [μKanren](http://webyrd.net/scheme-2013/papers/HemannMuKanren2013.pdf) in Ruby[^languages].
+## Starting Out
 
-## First Attempt
+The core moving part is the `State`. In its most basic form, it consists of a mapping between "logic variables" (we'll call them `LVar`) and "logic values" (or `Val<T>`). Note that a `Val<T>` can contain an `LVar` _or_ a resolved `T`.
 
-I'm going to gloss over a lot of the "why" of logic programming here. A skim through the ["Hello, declarative world" article](https://codon.com/hello-declarative-world) I linked above should give you a good understanding of where I started.
-
-The core moving part is the `State` object. In it's most basic form, it consists of a mapping between "logical variables" (we'll call them `LVar`) and "logical values" (or `Val<T>`).
-
-_Note: These code samples are heavily abridged. Many things including lifetime annotations have been left out for the sake of clarity._
+_Note: These code samples are heavily abridged. Many aspects including lifetime annotations have been elided for the sake of clarity._
 
 ```rust
 pub struct State<T> {
@@ -29,7 +25,7 @@ pub enum Val<T> {
 }
 ```
 
-The public API essentially provides a way to "attempt" adding new bindings and resolve existing bindings.
+The public API essentially provides a way to "attempt" the addition of new bindings (through [unification](https://codon.com/hello-declarative-world#unification)) and resolve existing bindings.
 
 ```rust
 impl State<T> {
@@ -38,7 +34,7 @@ impl State<T> {
 }
 ```
 
-A key characteristic of this model is that `.unify(...)` returns a new `State` instead of mutating `Self`. This seemed like a core requirement, so that's what I did.
+A key characteristic of this model is that `.unify(...)` returns a new `State` instead of mutating `Self`.
 
 The return type of `.unify(...)` is an alias:
 
@@ -46,7 +42,7 @@ The return type of `.unify(...)` is an alias:
 pub type StateIter<T> = Box<dyn Iterator<Item = State<T>>>;
 ```
 
-`Goal`s are structs that simply return an `Iterator` of potential states (yes, I said "_simply_ return an `Iterator`"... what's so funny?).
+A `Goal` is a struct that simply returns an `Iterator` of potential states (yes, I said "_simply_ returns an `Iterator`"... what's so funny?).
 
 ```rust
 pub enum Goal<T> {
@@ -72,7 +68,19 @@ impl Goal<T> {
 }
 ```
 
-A goal can return as many new states as needed. It worked! Eventually. After a small war of attrition against the borrow checker, I finally managed get the streams flowing. Many clones were sacrificed.
+These goals can be combined arbitrarily to create more complicated goals.
+
+```rust
+let goal = Either {
+    a: Unify { a: x, b: 1},
+    b: Both {
+        a: Unify { a: x, b: 2 },
+        a: Unify { a: y, b: 1 },
+    },
+};
+```
+
+A goal can return as many new states as needed. It worked! Well, eventually. After a small war of attrition against the borrow checker, I finally managed get the streams flowing. Many clones were sacrificed.
 
 With a few helper functions and some trait driven type coercion, the API wasn't too bad!
 
@@ -80,26 +88,39 @@ With a few helper functions and some trait driven type coercion, the API wasn't 
 let state = State::new();
 let goal: Goal<i32> = either(
     unify(x, 1),
-    unify(x, 2),
+    both(unify(x, 2 ), unify(y, 1 )),
 );
-goal.run(state)
+goal.run(state) // <- returns an iterator of potential states
 ```
 
 ## Smooth Sailing?
 
-I pushed forward, implementing the basic goal types and learning more about ownership, how and when to use enums vs trait objects and more. But I couldn't shake the feeling that I was fighting more than just the borrow checker.
+I pushed forward, implementing the other types of goals and learning more about ownership, how and when to use enums vs trait objects and more. But I couldn't shake the feeling that I was fighting more than just the borrow checker.
 
-On top of the excessive cloning, I was also struggling with a lack of type safety. My initial plan was for the `T` type parameter to be a user defined enum, but this meant all relations in "logic world" were essentially dynamically typed.
+On top of excessive cloning, I was also struggling with a lack of type safety. My initial plan was for the `T` type parameter to be a user defined enum.
+
+```rust
+enum MyType {
+    Number(i32),
+    Word(String),
+}
+
+// This compiles, but can never succeed!
+let goal: Goal<MyType> = unify(
+    MyType::Number(42),
+    MyType::Word("42"),
+);
+```
+
+Essentially, all relations in the "logic world" were dynamically typed.
 
 I needed a new approach.
 
 ## Rust is Different
 
-A weird thing about Rust is that it pulls so much from functional programming, but trying to use a "pure immutable" style as you would in a classic garbage collected language can get really uncomfortable.
+An interesting thing about Rust is that it pulls so much from functional programming, but trying to use a "pure immutable" style as in a typical garbage collected language can get really uncomfortable. This sort of pain is usually a sign that something needs to change.
 
-I finally came up with an approach in which I could embrace more idiomatic mutation patterns and clean up many of the ergonomic and performance compromises made in the first version.
-
-My new mutable `State` adds a new core `.fork(...)` operation and tweaks `.unify(...)`:
+My new mutable `State` adds a `.fork(...)` operation and tweaks `.unify(...)`:
 
 ```rust
 impl State<T> {
@@ -112,7 +133,7 @@ pub trait Fork<T> {
 }
 ```
 
-Note that both of these take a `mut self` and return an `Option<Self>`. The `.unify(...)` function eagerly attempts to reconcile bindings with those already contained in the state. If unification fails, the entire state is now invalid and we can bail right away with a `None`. Used with the `?` try operator, this can actually be quite smooth.
+Note that both functions take a `mut self` and return an `Option<Self>`. The `.unify(...)` function eagerly attempts to reconcile bindings with those already contained in the state. If unification fails, the entire state is now invalid. We can bail right away with `None` and avoid processing any additional updates. Used with the `?` try operator, this can actually be quite smooth.
 
 ```rust
 State::new()
@@ -129,9 +150,9 @@ let goal = either(
 );
 ```
 
-By deferring evaluation of the `Fork` objects, the end result is that we do as much work to disprove as many goals as possible _before_ we eventually split into an arbitrary number of potential result states.
+By deferring evaluation of the `Fork` objects, we do as much work to disprove as many goals as possible _before_ we eventually split into an arbitrary number of result states.
 
-The `Fork` trait's `.run(...)` is not invoked until we query for results. At that point, we recurse our way through the list of `Fork`s as a queue, branching out at each iteration.
+The `Fork` trait's `.run(...)` is not invoked until we query for results. At that point, we recurse our way through the list of `Fork` items as a queue, branching out at each iteration.
 
 ```rust
 fn iter_forks(mut self) -> StateIter<'a, D> {
@@ -165,7 +186,7 @@ domain! {
 }
 ```
 
-The `domain!` macro will create a struct with various impls that is able to store and retrieve values compatible with the domain. The generated struct looks (roughly) like this:
+The `domain!` macro can create a struct with associated functions that enable it to store and retrieve collections of values compatible with a user defined domain _by type_[^anymap]. The generated struct looks (roughly) like this:
 
 ```rust
 pub struct MyDomain {
@@ -174,7 +195,7 @@ pub struct MyDomain {
 }
 ```
 
-With pseudo-private[^privacy] accessors that can be used to gain access to the inner containers:
+With pseudo-private[^privacy] accessors that can be used to retreive the inner containers:
 
 ```rust
 impl<'a> DomainType<'a, i32> for MyDomain {
@@ -187,7 +208,7 @@ impl<'a> DomainType<'a, i32> for MyDomain {
 }
 ```
 
-The `State` struct is now parameterized with a `Domain` type, which it uses to manage the actual `Val<T>` containers (some of this is actually spread into other traits/impls, but this is essentially what happens):
+The `State` struct is now parameterized with a `Domain` type, to which it delegates management of the individual `Val<T>` containers (some of this is actually spread into other traits/impls, but this is essentially what happens):
 
 ```rust
 impl <D: Domain> State<D> {
@@ -199,11 +220,13 @@ impl <D: Domain> State<D> {
             Val::Var(var) => {
                 let resolved = self.domain.values_as_ref().get(var);
                 match resolved {
-                    Some(Val::Var(found)) if found == var => val,
-                    Some(found) => self.resolve(found),
-                    _ => val,
+                    // We found another Var, try to resolve deeper
+                    Some(found) => self.resolve_val(found),
+                    // We didn't find a binding, return the Var
+                    None => val,
                 }
             }
+            // This isn't a Var, just return it
             value => value,
         }
     }
@@ -219,7 +242,7 @@ let goal = Goal<MyDomain> = unify(x, 1);
 let goal = Goal<MyDomain> = unify(x, vec![1, 2]);
 ```
 
-While the approach feels a bit idiosyncratic, it actually has a few really nice properties. Most notably: explicitly defining all of the types that should be valid in your _logical_ domain greatly increases the helpfulness of compiler errors.
+While the macro approach feels a bit idiosyncratic, it does have a few really nice properties. Most notably: explicitly defining all of the types that should be valid in the _logic_ domain greatly increases the helpfulness of compiler errors.
 
 ## Takeaways
 
@@ -237,11 +260,19 @@ As time allows, I'll dig into constraints, the [`UnifyIn`](https://docs.rs/canru
 
 ---
 
-[^languages]: I actually used TypeScript for some of the very earliest prototyping due to its familiarity and relative malleability. So I learned about a logic programming approach that originated in Lisp from a Rubyist, started in TypeScript and finally built the thing in Rust.
+[^reading]: I'm sorry to say that despite [The Reasoned Schemer](http://minikanren.org/#trs)'s status as the classic book on [miniKanren](http://minikanren.org/), it never really clicked for me. Similarly, most of the other resources I've found on were either too deep or too toylike. This is not a critism or complaint! Logic programming is a niche, and I'm very grateful to those who have shared their work.
+
+---
+
+[^languages]: I actually used TypeScript for some of the very earliest prototyping due to its familiarity and relative malleability. So I learned about a logic programming approach that originated in Lisp from a Rubyist, started coding in TypeScript and finally built the thing in Rust. 'cause why not?
 
 ---
 
 [^typedlogic]: The most substantial prior art for statically typed logic programming I found was [Mercury](http://www.mercurylang.org/) and [OCanren](https://github.com/JetBrains-Research/OCanren). As is typical, I did not spend nearly enough time trying to glean insight before I set out on my own.
+
+---
+
+[^anymap]: This is not quite the same as something like [AnyMap](https://github.com/chris-morgan/anymap), which depends on [types having a `'static` lifetime](https://doc.rust-lang.org/std/any/struct.TypeId.html) for reasons I don't claim to fully understand.
 
 ---
 
