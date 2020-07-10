@@ -16,7 +16,7 @@ def zola():
         check_call(['which', 'zola'])
         return 'zola'
     except:
-        zola_url = 'http://github.com/getzola/zola/releases/download/v0.9.0/zola-v0.9.0-x86_64-unknown-linux-gnu.tar.gz'
+        zola_url = 'https://github.com/getzola/zola/releases/download/v0.11.0/zola-v0.11.0-x86_64-unknown-linux-gnu.tar.gz'
         check_call(f'wget -qO- {zola_url} | tar -xvz', shell=True)
         return './zola'
 

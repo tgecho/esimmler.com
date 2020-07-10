@@ -20,7 +20,7 @@ console.log(_bar.foo);
 
 The insidious part of this is that it may take a while to notice. If you're using [source maps](http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/), Chrome's inspector will happily show your original code in the sources panel. This works shockingly well right up to the point at which you drop into the debugger and attempt to use one of your imported values.
 
-```js
+```
 // What you want
 foo
 
