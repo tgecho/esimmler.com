@@ -175,3 +175,10 @@ code,
   padding: 0.5rem;
   border-radius: 0.25rem;
 }
+
+.footnote-reference {
+  line-height: 1em;
+}
+.footnote-definition:target {
+  background: #ffd;
+}
