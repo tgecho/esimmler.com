@@ -64,23 +64,25 @@ hr {
   }
 }
 
+.summary .post-title {
+  a::after {
+    content: "➺";
+    font-size: 1.3em;
+    vertical-align: sub;
+    line-height: 0.5em;
+    opacity: 0;
+    transition: opacity .25s ease;
+    margin-left: 0.2em;
+  }
+  a:hover::after {
+    opacity: 0.8;
+  }
+}
+
 .post-header {
   .post-title {
     margin-top: 0.25em;
     margin-bottom: 0;
-
-    a::after {
-      content: "➺";
-      font-size: 1.3em;
-      vertical-align: sub;
-      line-height: 0.5em;
-      opacity: 0;
-      transition: opacity .25s ease;
-      margin-left: 0.2em;
-    }
-    a:hover::after {
-      opacity: 0.8;
-    }
 
     &+time {
       margin-top: 0;

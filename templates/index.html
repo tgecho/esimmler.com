@@ -3,7 +3,7 @@
 {% include "_blurb.html" %}
 
 {% for page in section.pages | slice(end=5) %}
-<article class="post">
+<article class="post summary">
     <header class="post-header">
         <h2 class="post-title">
             <a href="{{ page.permalink }}">{{ page.title }}</a>
