@@ -99,7 +99,7 @@ So to preview a feed, first we fetch the feed from the server and parse it to ex
 
 #### WebAssembly asides
 
-It's very easy to accidentally generate [very large bundle sizes](../large-wasm-builds-with-rust-regex/) depending on the dependencies you're using. This is not unlike similar problems in the Javascript ecosystem, but the extra opaqueness of WASM makes it harder to debug.
+It's very easy to accidentally generate [very large bundle sizes](@/2022-02-06-large-wasm-builds-with-rust-regex.md) depending on the dependencies you're using. This is not unlike similar problems in the Javascript ecosystem, but the extra opaqueness of WASM makes it harder to debug.
 
 [wasm-bindgen](https://github.com/rustwasm/wasm-bindgen) does a really good job of gluing the WASM/JavaScript worlds together. However, there is a pretty substantial cost to serializing and transferring complex datastructures across the boundary between worlds. For the sake of performance, I ended up simplifying most of my transferrable data to a simple [Float64Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array) containing timestamps. Strictly necessary? Not really.
 
