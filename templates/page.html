@@ -1,8 +1,10 @@
 {% include "_header.html" %}
 
+<a href="{{ config.base_url | safe }}/" class="back-link">back</a>
+
 <article class="post">
     <header class="post-header">
-        <h2 class="post-title">{{ page.title }}</h2>
+        <h2 class="post-title"><a href="" rel="self">{{ page.title }}</a></h2>
         <time datetime="{{ page.date }}">{{ page.date | date(format="%h %d, %Y") }}</time>
         <a href="{{ config.base_url | safe }}/" rel="author">by {{ config.extra.author }}</a>
     </header>
@@ -11,6 +13,20 @@
         {{ page.content | safe }}
     </main>
 </article>
+
+{% if page.backlinks %}
+<hr />
+<aside class="backlinks">
+    <h2>See Also</h2>
+    <ul>
+        {% for backlink in page.backlinks %}
+        <li><a href="{{backlink.permalink}}">{{backlink.title}}</a></li>
+        {% endfor %}
+    </ul>
+</aside>
+{% endif %}
+
+<hr />
 
 {% include "_blurb.html" %}
 {% include "_footer.html" %}

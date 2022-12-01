@@ -5,6 +5,8 @@ date = 2022-11-25
 
 **tl;dr** I made a service that lets you replay old podcast feeds as if they are just starting out: [PodReplay.com](https://podreplay.com/). Continue reading if you're curious to read a smattering of design notes and half remembered anecdotes.
 
+<!-- more -->
+
 ### The long version
 
 I have a bad habit. Well, maybe more than one, but I'll try to suppress the one about trying to talk about too many ideas at once and focus on the one about trying to experiment on too many new technologies at the same time. Baby steps.
@@ -97,7 +99,7 @@ So to preview a feed, first we fetch the feed from the server and parse it to ex
 
 #### WebAssembly asides
 
-It's very easy to accidentally generate [very large bundle sizes](../large-wasm-builds-with-rust-regex/) depending on the dependencies you're using. This is not unlike similar problems in the Javascript ecosystem, but the extra opaqueness of WASM makes it harder to debug.
+It's very easy to accidentally generate [very large bundle sizes](@/2022-02-06-large-wasm-builds-with-rust-regex.md) depending on the dependencies you're using. This is not unlike similar problems in the Javascript ecosystem, but the extra opaqueness of WASM makes it harder to debug.
 
 [wasm-bindgen](https://github.com/rustwasm/wasm-bindgen) does a really good job of gluing the WASM/JavaScript worlds together. However, there is a pretty substantial cost to serializing and transferring complex datastructures across the boundary between worlds. For the sake of performance, I ended up simplifying most of my transferrable data to a simple [Float64Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array) containing timestamps. Strictly necessary? Not really.
 
