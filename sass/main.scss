@@ -154,6 +154,10 @@ time {
 
 main {
   margin-bottom: 1.5rem;
+
+  hr:last-child {
+    display: none;
+  }
 }
 
 td {
@@ -230,4 +234,13 @@ code,
   font-size: 1.25em;
   transform: scale(-1, 1);
   top: -0.2em;
+}
+
+.backlinks {
+  h2 {
+    margin-bottom: .25em;
+  }
+  ul {
+    margin-top: .25em;
+  }
 }

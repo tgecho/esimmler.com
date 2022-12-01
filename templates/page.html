@@ -14,5 +14,19 @@
     </main>
 </article>
 
+{% if page.backlinks %}
+<hr />
+<aside class="backlinks">
+    <h2>See Also</h2>
+    <ul>
+        {% for backlink in page.backlinks %}
+        <li><a href="{{backlink.permalink}}">{{backlink.title}}</a></li>
+        {% endfor %}
+    </ul>
+</aside>
+{% endif %}
+
+<hr />
+
 {% include "_blurb.html" %}
 {% include "_footer.html" %}
