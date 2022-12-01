@@ -9,7 +9,7 @@
 
     <link rel="alternate" type="application/atom+xml" href="{{ config.extra.rss_path | safe }}" />
 
-    <link rel="stylesheet" href="{{ config.base_url | safe }}/main.css" />
+    <link rel="stylesheet" href="{{get_url(path='main.css', cachebust=true)}}" />
 
     <!--[if lt IE 9]>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
