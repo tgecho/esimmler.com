@@ -5,6 +5,8 @@ date = 2022-11-25
 
 **tl;dr** I made a service that lets you replay old podcast feeds as if they are just starting out: [PodReplay.com](https://podreplay.com/). Continue reading if you're curious to read a smattering of design notes and half remembered anecdotes.
 
+<!-- more -->
+
 ### The long version
 
 I have a bad habit. Well, maybe more than one, but I'll try to suppress the one about trying to talk about too many ideas at once and focus on the one about trying to experiment on too many new technologies at the same time. Baby steps.

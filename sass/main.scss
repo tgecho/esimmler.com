@@ -44,6 +44,7 @@ hr {
   height: 1em;
   font-family: "Calluna", serif;
   border: none;
+  clear: both;
 
   &:after {
     content: "⁂"; // https://en.wikipedia.org/wiki/Asterism_(typography)
@@ -65,7 +66,21 @@ hr {
 
 .post-header {
   .post-title {
+    margin-top: 0.25em;
     margin-bottom: 0;
+
+    a::after {
+      content: "➺";
+      font-size: 1.3em;
+      vertical-align: sub;
+      line-height: 0.5em;
+      opacity: 0;
+      transition: opacity .25s ease;
+      margin-left: 0.2em;
+    }
+    a:hover::after {
+      opacity: 0.8;
+    }
 
     &+time {
       margin-top: 0;
@@ -181,4 +196,36 @@ code,
 }
 .footnote-definition:target {
   background: #ffd;
+}
+
+.more-link {
+  float: right;
+  position: relative;
+  margin-right: 2em;
+}
+.more-link::after {
+  content: "➺";
+  position: absolute;
+  font-size: 1.6em;
+  top: 0.06em;
+  right: -1em;
+  opacity: 0.7;
+}
+
+.excerpt p:last-of-type {
+  margin-bottom: .5em;
+}
+
+.back-link {
+  position: relative;
+  font-size: 0.8em;
+  opacity: .75;
+}
+.back-link::before {
+  content: "➺";
+  position: absolute;
+  left: -1.1em;
+  font-size: 1.25em;
+  transform: scale(-1, 1);
+  top: -0.2em;
 }

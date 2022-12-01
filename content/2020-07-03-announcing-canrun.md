@@ -4,6 +4,8 @@ title = "Announcing Canrun: A logic programming library inspired by the *Kanren 
 
 I keep bumping into [logic programming](https://en.wikipedia.org/wiki/Logic_programming), especially in the form of the [\*Kanren](http://minikanren.org/) family. In keeping with tradition, this is my attempt to implement it in Rust, my current hobby language of choice.
 
+<!-- more -->
+
 After a few false starts, I got a not completely horrific proof of concept running. Then I rewrote it once or twice to improve usability, make it internally type safe and add a form of [constraints](https://en.wikipedia.org/wiki/Constraint_logic_programming). The sordid history is [buried in git](https://github.com/tgecho/canrun_rs/commits/master?before=9a7f39310cc73f1e692490f80a84a3d670fe4f52+245).
 
 The end result? I'm pretty satisfied with the learning experience I got out of it, so any value in the actual artifact is just gravy.

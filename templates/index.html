@@ -2,7 +2,7 @@
 {% include "_title.html" %}
 {% include "_blurb.html" %}
 
-{% for page in section.pages | slice(end=2) %}
+{% for page in section.pages | slice(end=5) %}
 <article class="post">
     <header class="post-header">
         <h2 class="post-title">
@@ -13,8 +13,12 @@
 
     {% if page.summary %}
     <div class="excerpt">
+        {% if page.description %}
+        <p>{{ page.description | safe }}</p>
+        {% else %}
         {{ page.summary | safe }}
-        <a href="{{ page.permalink }}" class="more-link">Keep reading &rsaquo;</a>
+        {% endif %}
+        <a href="{{ page.permalink }}" class="more-link">keep reading</a>
     </div>
     {% else %}
     <div class="excerpt">
