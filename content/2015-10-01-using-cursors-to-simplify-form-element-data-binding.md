@@ -92,7 +92,7 @@ If your data structure is nested, you can delegate entire layers to subforms wit
 
 Cursors are a [simple](http://www.infoq.com/presentations/Simple-Made-Easy) and yet powerful concept. They make it practical to centralize state management while still allowing clean encapsulation of subcomponents. This may seem like an odd goal in a world where stateful objects are still considered the norm, but the benefits of standardized and composable data flow patterns extend beyond "exotic" functional programming languages.
 
-### Further reading
+## Further reading
 
 Most of my initial exposure to these concepts was through learning about the many useful properties of immutable persistent data structures. David Nolan is one of many pioneers in this space with [Om](https://github.com/omcljs/om), a [ClojureScript](https://github.com/clojure/clojurescript) library built on React. [Cursors](https://github.com/omcljs/om/wiki/Cursors) are one of Om's foundational concepts.
 

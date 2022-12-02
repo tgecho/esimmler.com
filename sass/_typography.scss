@@ -29,13 +29,15 @@
     h3,
     h4,
     h5,
-    h6,
+    h6 {
+        margin: $baseline 0 $baseline/2;
+    }
     p,
     ul,
     ol,
     dl,
     pre {
-        margin: $baseline 0;
+        margin: $baseline/2 0;
     }
 
     td {
@@ -56,30 +58,31 @@
     }
 
     h1 {
-        font-size: 3rem;
+        font-size: 2.75rem;
     }
 
     h2 {
-        font-size: 2.2rem;
+        font-size: 2rem;
     }
 
     h3,
     .blurb h1 {
-        font-size: 1.75rem;
+        font-size: 1.5rem;
     }
 
     h4 {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
     }
 
     h5,
     dt {
-        font-size: 1.25rem;
+        font-size: 1.1rem;
     }
 
     h6 {
         font-size: 1rem;
     }
+
 
     @media screen and (max-width: 550px) {
         h1 {

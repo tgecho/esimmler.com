@@ -7,7 +7,7 @@ date = 2022-11-25
 
 <!-- more -->
 
-### The long version
+# The long version
 
 I have a bad habit. Well, maybe more than one, but I'll try to suppress the one about trying to talk about too many ideas at once and focus on the one about trying to experiment on too many new technologies at the same time. Baby steps.
 
@@ -17,7 +17,7 @@ So I wanted a simple way to intersperse old episodes of a podcast in my feed as 
 
 In parallel, I've been lightly dabbling with [Rust](https://www.rust-lang.org/) and [Svelte](https://svelte.dev/). I've also read glowing reviews of [Fly.io](https://fly.io/). It was time to try them out for real. All at once [^noveltybudget].
 
-### The plan
+# The plan
 
 This is a "coffee table project"[^coffeetable], which means I get to set the rules. For my own sake, I want to not worry too much about long term maintenance. Which means I should minimize moving parts ~~and the use of novel technologies~~[^ha]. But hey, I get to both set _and_ interpret the rules.
 
@@ -50,7 +50,7 @@ Once the current date advances far enough, the third episode will appear:
 2022-12-20  Three
 ```
 
-### The first problem
+# The first problem
 
 There are several existing [feed parsing libraries for Rust](https://crates.io/keywords/feed), and the few that I tried seemed fine. The thing about feed parsing, especially for podcasts, is that publishers do all kinds of _interesting_ things with their feeds. The bulk of the effort goes into normalizing all of these eccentricities down into a simpler structure for the host app to consume.
 
@@ -58,7 +58,7 @@ In my case, I only really need to be able to identify the timestamp of the episo
 
 So I had to drop down to lower level XML parsing. I ended up using [quick-xml](https://github.com/tafia/quick-xml), which allowed me to stream in the original feed, and write directly back to a new xml document on the fly. A super rough excerpt:
 
-```rs
+```rust
 match reader.read_event(&mut buf) {
     Ok(Event::Eof) => break,
     Ok(Event::Start(start)) => match start.name() {
@@ -70,7 +70,7 @@ match reader.read_event(&mut buf) {
 
 Apart from the usual borrow checker shenanigans, I actually got an initial working web server (based on [Axum](https://github.com/tokio-rs/axum)) up and running fairly quickly!
 
-### The second problem
+# The second problem
 
 Many podcasts only maintain something like the last one hundred episodes in their feeds (sometimes substantially less!). Whether it's for practical reasons (they publish new items every day) or for business model reasons (old episodes are only available to subscribers), I needed to account for this in some way. If not, my naive approach would get confused and start replaying the episodes earlier. Say the feed from our earlier example stops containing the first episode: now "Two" and "Three" will be scheduled a month earlier than before, shifting the entire replay forward an episode.
 
@@ -81,7 +81,7 @@ Many podcasts only maintain something like the last one hundred episodes in thei
 
 This error would accumulate with every old episode that drops off the end of the feed.
 
-#### Adding state
+## Adding state
 
 So I needed to keep some state. I figured that if I just tracked all of the item GUIDs/timestamps observed for a given feed, I could reconstruct enough history to reliably reschedule the rest long after older items have expired. I won't include them in the replayed feed (since I'm not caching enough data to reconstruct them in full), but I can account for them when scheduling out the items that _are_ still available.
 
@@ -89,7 +89,7 @@ Once I determined that I needed to store some persistant state, I decided it was
 
 This is completely sufficient for the nature of the data I'm storing (and the amount of long term effort/money I'm interested in spending). This would let me keep a relatively small SQLite database file locally on the single [Fly.io](https://fly.io/) instance I was planning to run and not mess with managing a separate database[^beyondlitestream].
 
-### The front end
+# The front end
 
 I built out the front end with [SvelteKit](https://kit.svelte.dev/). I was running low on steam at this point, so the UI design is... basic.
 
@@ -97,30 +97,30 @@ I wanted to be able to show a live preview of the effect various options can hav
 
 So to preview a feed, first we fetch the feed from the server and parse it to extract a summary, containing just a guid/title/timestamp for each item. The core rescheduling code (now a standalone Rust lib compilable to WASM) takes this summary and the scheduling config to generate a preview.
 
-#### WebAssembly asides
+## WebAssembly asides
 
 It's very easy to accidentally generate [very large bundle sizes](@/2022-02-06-large-wasm-builds-with-rust-regex.md) depending on the dependencies you're using. This is not unlike similar problems in the Javascript ecosystem, but the extra opaqueness of WASM makes it harder to debug.
 
 [wasm-bindgen](https://github.com/rustwasm/wasm-bindgen) does a really good job of gluing the WASM/JavaScript worlds together. However, there is a pretty substantial cost to serializing and transferring complex datastructures across the boundary between worlds. For the sake of performance, I ended up simplifying most of my transferrable data to a simple [Float64Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array) containing timestamps. Strictly necessary? Not really.
 
-### Deployment
+# Deployment
 
 Frankly, this was kind of anticlimactic, which is actually a real testament to [Fly.io](https://fly.io). Once I got a docker container sorted out locally it only took a bit of fiddling to get things up and running. It reminded me of all the best feelings of using [Heroku](https://www.heroku.com/) back in the day.
 
 One really neat thing I'd like to call out is their slick static file support, specifically [how it works when a deploy is in progress](https://community.fly.io/t/first-look-static-asset-caching/1375).
 
-### Conclusion
+# Conclusion
 
 As with many side projects the most important outcome is often not the final artifact, but what was learned along the way. I left out several details, either because I've forgotten them (I wrote most of this post several months after I wrapped up work) or because they could blow up into complete standalone posts (e.g. feed autodiscovery).
 
 If you're still interested after all that, here's the link again: [PodReplay.com](https://podreplay.com). Or, you can check out the actual code at [github.com/tgecho/podreplay](https://github.com/tgecho/podreplay).
 
-#### Potential future enhancements
+## Potential future enhancements
 
 - Add the ability to pause/resume/skip replay without creating a new feed. This will require some additional per replay state.
 - Add more robust autodiscovery, possibly based on something like the [ListenNotes API](https://www.listennotes.com/api/).
 
-#### Stuff I used
+## Stuff I used
 
 An incomplete list of notable tools/libraries used to build PodReplay, many for the first time:
 

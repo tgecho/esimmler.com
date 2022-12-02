@@ -28,7 +28,7 @@ By adding some matching CSS, you can cause the entry to be animated using CSS tr
 
 `CSSTransitionGroup` also adds similar classes when elements leave.
 
-### Making the transition name dynamic
+## Making the transition name dynamic
 
 One cool aspect of `CSSTransitionGroup` is that you can adjust the name on the fly. Among many possibilities, this makes it very easy to dynamically control the direction of a sliding transition.
 

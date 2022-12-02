@@ -10,7 +10,7 @@ In my [initial post](@/2020-07-03-announcing-canrun.md) I mentioned going throug
 
 My first successful attempt was actually based on an article by Tom Stuart titled ["Hello, declarative world"](https://codon.com/hello-declarative-world)[^reading], which described a way to implement [μKanren](http://webyrd.net/scheme-2013/papers/HemannMuKanren2013.pdf) in Ruby[^languages]. I recommend reading that if you find yourself confused about any of the "why" I gloss over here.
 
-## Starting Out
+# Starting Out
 
 The core moving part is the `State`. In its most basic form, it consists of a mapping between "logic variables" (we'll call them `LVar`) and "logic values" (or `Val<T>`). Note that a `Val<T>` can contain an `LVar` _or_ a resolved `T`.
 
@@ -95,7 +95,7 @@ let goal: Goal<i32> = either(
 goal.run(state) // <- returns an iterator of potential states
 ```
 
-## Smooth Sailing?
+# Smooth Sailing?
 
 I pushed forward, implementing the other types of goals and learning more about ownership, how and when to use enums vs trait objects and more. But I couldn't shake the feeling that I was fighting more than just the borrow checker.
 
@@ -118,7 +118,7 @@ Essentially, all relations in the "logic world" were dynamically typed.
 
 I needed a new approach.
 
-## Rust is Different
+# Rust is Different
 
 An interesting thing about Rust is that it pulls so much from functional programming, but trying to use a "pure immutable" style as in a typical garbage collected language can get really uncomfortable. This sort of pain is usually a sign that something needs to change.
 
@@ -173,7 +173,7 @@ In a nutshell:
 - `.unify(...)` eagerly converges, constraining the `State` into zero or one possible outcomes.
 - `.fork(...)` lazily diverges, splitting a `State` into zero or more alternate possibilities.
 
-## Typing the Domain
+# Typing the Domain
 
 _Statically typed_ logic programming seems to be a small niche within the niche that is regular logic programming.[^typedlogic]
 
@@ -246,13 +246,13 @@ let goal = Goal<MyDomain> = unify(x, vec![1, 2]);
 
 While the macro approach feels a bit idiosyncratic, it does have a few really nice properties. Most notably: explicitly defining all of the types that should be valid in the _logic_ domain greatly increases the helpfulness of compiler errors.
 
-## Takeaways
+# Takeaways
 
 - In Rust (as elsewhere), pain is an indication that you may want to reconsider your approach.
 - Studying prior art is important, but take its original context into account to avoid imitating badly. A different context might require different choices.
 - [David Tolnay's](https://github.com/dtolnay) [quote](https://github.com/dtolnay/quote) and [syn](https://github.com/dtolnay/syn) libraries make my rather raw proc macro way nicer than it has any business being.
 
-## Onward!
+# Onward!
 
 As time allows, I'll dig into constraints, the [`UnifyIn`](https://docs.rs/canrun/latest/canrun/trait.UnifyIn.html)/[`Query`](https://docs.rs/canrun/latest/canrun/trait.Query.html)/[`ReifyIn`](https://docs.rs/canrun/latest/canrun/trait.ReifyIn.html) traits, collections and more!
 

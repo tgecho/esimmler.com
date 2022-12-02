@@ -35,7 +35,7 @@ fn thumbnail(photo_name: String) -> Content<Vec<u8>> {
 
 Rocket catches any panics thrown by route handlers, so this is about as robust as a naive equivalent in most other languages. However, Rust at least forces us to be explicit and purposeful about when we want to be sloppy. This is great for a first quick and dirty pass, but we can do much better.
 
-### Option
+## Option
 
 The simplest way to avoid unwrapping is to convert each failure value into an `Option`.
 
@@ -64,7 +64,7 @@ When you put `?` after an `Option` or `Result` Rust will short circuit the funct
 
 The substantive downside to this approach is that we have no way to add more detail. Rocket turns `None` in a 404 response. While it feels better than a 500, this is still not ideal or correct.
 
-### Result
+## Result
 
 We want to return different error status codes depending on what went wrong. This is the direct approach.
 
@@ -109,7 +109,7 @@ fn img_err_to_status(img_err: image::ImageError) -> rocket::http::Status {
 
 The body hasn't grown much. I did add a helper function to map `ImageError` variations to appropriate status codes. This is a completely reasonable place to stop, but I wanted to explore even fancier approaches.
 
-### Custom Responder
+## Custom Responder
 
 ```rust
 #[derive(Debug)]
@@ -161,13 +161,13 @@ This feels a touch heavy, but there some very real readability gains. I'm intrig
 
 Also, this function is not almost completely decoupled from Rocket. With a bit more tweaking (specifically the final return value) I could use it in a different context.
 
-### Paths not taken
+## Paths not taken
 
 I played with a few other things, but I felt they added even more magical obfuscation with little gain:
 
 - Implementing the [`Try` trait](https://doc.rust-lang.org/std/ops/trait.Try.html). This is a nightly-only experimental API that lets you integrate your custom types with the `?` operator. I didn't actually get it to work, and I'm going to wait for it to stabilize before I revisit. I think an explicit `Result<SuccessType, ErrorType>` will make more sense for most cases.
 - Implementing the [`From` trait](https://doc.rust-lang.org/std/convert/trait.From.html). This can cut a bit of verbosity, but it also makes it harder to take context into account. For example, there are two potential `ImageError`s, and we need to handle each differently. I don't think it's worth the effort in this case, but I see a lot of the potential in `From` and `Into`.
 
-### Conclusion
+## Conclusion
 
 There are a lot of ways to handle failure in Rust. You can opt into quick and dirty "just crash" behavior when you're messing around. For anything remotely serious, more robust approaches are really not much more work. The amount of care the Rust implementers put into ergonomics and composability is truely impressive.

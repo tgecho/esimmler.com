@@ -14,7 +14,7 @@ The end result? I'm pretty satisfied with the learning experience I got out of i
 - Crates.io: [https://crates.io/crates/canrun](https://crates.io/crates/canrun)
 - Docs.rs: [https://docs.rs/crate/canrun](https://docs.rs/crate/canrun)
 
-## An Introduction
+# An Introduction
 
 I'm still a novice, so take everything I say with a grain of salt.
 
@@ -34,7 +34,7 @@ assert_eq!(result, vec![1])
 
 Breaking it down...
 
-### Imports
+## Imports
 
 ```rust
 use canrun::{Goal, both, unify, var, example::I32};
@@ -42,7 +42,7 @@ use canrun::{Goal, both, unify, var, example::I32};
 
 First are some imports, including an example domain that represents all of the types that will be valid in our little logic program. In this case, only `i32`.
 
-### Logic Variables
+## Logic Variables
 
 ```rust
 let x = var();
@@ -51,7 +51,7 @@ let y = var();
 
 These are typed "logic variables" (specifically `LVar<i32>`), which can be unified with other values in our program.
 
-### Goals
+## Goals
 
 ```rust
 let goal: Goal<I32> = both(unify(x, y), unify(1, x));
@@ -63,7 +63,7 @@ The `both` and `unify` functions are `Goal` constructors. A `Goal` represents on
 
 `both` combines the two `unify` goals into a goal that will only succeed if both sub goals succeed.
 
-### Querying
+## Querying
 
 ```rust
 let result: Vec<_> = goal.query(y).collect();
@@ -74,7 +74,7 @@ To get results from a `Goal`, we can query it with one or more logic variables t
 
 For example, querying the goal `either(unify(x, 1), unify(2, x))` for the value of `x` would return two possible results: `vec![1, 2]`.
 
-## Getting More Advanced
+# Getting More Advanced
 
 Unification is quite a bit more interesting than simple equality when applied to structures.
 
@@ -97,7 +97,7 @@ In this case, we actually plucked a value out of a structure by unifying a compa
 
 Additional specialized collection types and goal constructors are available, with more coming as needs arise and ability allows.
 
-### Member
+## Member
 
 ```rust
 let goal: Goal<Collections> = member(x, lvec![1, 2, 3]);
@@ -105,7 +105,7 @@ let results: Vec<_> = goal.query(x).collect();
 assert_eq!(results, vec![1, 2, 3]);
 ```
 
-### Subset
+## Subset
 
 ```rust
 let goal: Goal<Collections> = subset(
@@ -116,15 +116,15 @@ let results: Vec<_> = goal.query(x).collect();
 assert_eq!(results, vec![2]);
 ```
 
-## What's Next?
+# What's Next?
 
 Apart from random needs based additions...
 
-### Ergonomics
+## Ergonomics
 
 The biggest obvious pain point I see at the moment is how annoying it is to implement many of traits such as `UnifyIn` and `ReifyIn`. I think 99% of the use cases can be handled with a derive macro.
 
-### Even Fancier DSL
+## Even Fancier DSL
 
 The function based API is not bad at all, but I still dream about doing some sort of fancy custom parser macro magic overkill to unlock something like:
 
@@ -138,11 +138,11 @@ goal.query(y)
 
 This is mostly so I can type `logic!`
 
-### General Correctness
+## General Correctness
 
 I've approached this as an engineering problem, with very little theoretical rigor or deep understanding of the prior art. This has been fun and enlightening, but I have no doubt that there are holes.
 
-## Conclusion
+# Conclusion
 
 Sometimes the types get a little scary, but overall I'm quite pleased with how fluent Rust is able to be with a little architectural care and feeding.
 
@@ -150,7 +150,7 @@ How much I'll actually work on this project is completely dependant on how appli
 
 **Next:** [A deeper dive into how Canrun actually works and how it came to be](@/2020-07-08-building-canrun-part-1.md).
 
-### Links
+## Links
 
 - Github: [https://github.com/tgecho/canrun_rs](https://github.com/tgecho/canrun_rs)
 - Crates.io: [https://crates.io/crates/canrun](https://crates.io/crates/canrun)

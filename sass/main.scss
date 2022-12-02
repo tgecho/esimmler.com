@@ -230,10 +230,11 @@ code,
 .back-link::before {
   content: "➺";
   position: absolute;
-  left: -1.1em;
+  left: -1em;
   font-size: 1.25em;
   transform: scale(-1, 1);
-  top: -0.2em;
+  bottom: 0.36em;
+  line-height: 0;
 }
 
 .backlinks {

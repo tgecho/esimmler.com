@@ -2,28 +2,34 @@
 
 <a href="{{ config.base_url | safe }}/" class="back-link">back</a>
 
-<article class="post">
+<section class="post">
     <header class="post-header">
-        <h2 class="post-title"><a href="" rel="self">{{ page.title }}</a></h2>
+        <h1 class="post-title"><a href="" rel="self">{{ page.title }}</a></h1>
         <time datetime="{{ page.date }}">{{ page.date | date(format="%h %d, %Y") }}</time>
         <a href="{{ config.base_url | safe }}/" rel="author">by {{ config.extra.author }}</a>
     </header>
 
     <main>
-        {{ page.content | safe }}
+        {{ page.content |
+            replace(from="<h5 id", to="<h6 id=") | replace(from="</h5>", to="</h6>") |
+            replace(from="<h4 id", to="<h5 id=") | replace(from="</h4>", to="</h5>") |
+            replace(from="<h3 id", to="<h4 id=") | replace(from="</h3>", to="</h4>") |
+            replace(from="<h2 id", to="<h3 id=") | replace(from="</h2>", to="</h3>") |
+            replace(from="<h1 id", to="<h2 id=") | replace(from="</h1>", to="</h2>") |
+        safe }}
     </main>
-</article>
+</section>
 
 {% if page.backlinks %}
-<hr />
-<aside class="backlinks">
-    <h2>See Also</h2>
-    <ul>
-        {% for backlink in page.backlinks %}
-        <li><a href="{{backlink.permalink}}">{{backlink.title}}</a></li>
-        {% endfor %}
-    </ul>
-</aside>
+    <hr />
+    <aside class=" backlinks">
+        <h2>See Also</h2>
+        <ul>
+            {% for backlink in page.backlinks %}
+                <li><a href="{{backlink.permalink}}">{{backlink.title}}</a></li>
+            {% endfor %}
+        </ul>
+    </aside>
 {% endif %}
 
 <hr />
