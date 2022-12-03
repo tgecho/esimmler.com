@@ -47,6 +47,7 @@ const {
       .title {
         font-size: 1.5em;
         margin: 0.25em 0;
+        padding-top: 0;
         color: #ea7950;
         line-height: 1em;
       }
@@ -55,8 +56,16 @@ const {
         margin: 1em 0;
       }
       article :global(h1, h2, h3, h4, h5) {
-        margin: 1.5em 0 0.5em;
+        margin: 0.8em 0 0.5em;
+        padding-top: 0.7em;
         color: #63ba29;
+      }
+      article :global(:where(h1, h2, h3, h4, h5) a) {
+        text-decoration: underline;
+        text-decoration-style: dotted;
+      }
+      article :global(:target a) {
+        text-decoration-style: solid;
       }
       article :global(h1) {
         font-size: 1.5em;
