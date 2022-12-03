@@ -5,7 +5,7 @@ date: "2020-07-08"
 
 [Canrun](https://github.com/tgecho/canrun_rs) is a new logic programming library for Rust with static types and constraints.
 
-In my [initial post](@/2020-07-03-announcing-canrun.md) I mentioned going through a few fundamental revisions before settling on the current approach. Here I'll try to do a quick recap for two reasons: 1) I think it's neat, and 2) with luck I'll snag the attention of someone with deeper experience and a willingness to share some tips.
+In my [initial post](./announcing-canrun) I mentioned going through a few fundamental revisions before settling on the current approach. Here I'll try to do a quick recap for two reasons: 1) I think it's neat, and 2) with luck I'll snag the attention of someone with deeper experience and a willingness to share some tips.
 
 <!-- more -->
 

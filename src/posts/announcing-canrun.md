@@ -149,7 +149,7 @@ Sometimes the types get a little scary, but overall I'm quite pleased with how f
 
 How much I'll actually work on this project is completely dependant on how applicable it actually ends up being to my other experiments. Or how much I keep [nerd sniping](https://xkcd.com/356/) myself.
 
-**Next:** [A deeper dive into how Canrun actually works and how it came to be](@/2020-07-08-building-canrun-part-1.md).
+**Next:** [A deeper dive into how Canrun actually works and how it came to be](./building-canrun-part-1).
 
 ## Links
 
