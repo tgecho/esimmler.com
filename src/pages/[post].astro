@@ -1,0 +1,89 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { getRawPosts } from "../getPosts";
+import Timestamp from "../components/Timestamp.astro";
+
+export interface Props {
+  content: {
+    title: string;
+    description: string;
+    date?: string;
+  };
+}
+
+export async function getStaticPaths() {
+  const posts = await getRawPosts();
+
+  const paths = posts
+    .map((post: any) => {
+      const path =
+        post.frontmatter.slug || /\/([^\/]+)\.+\w+$/.exec(post.file)?.[1];
+      if (!path) return;
+      return {
+        params: {
+          post: path,
+        },
+        props: {
+          post,
+        },
+      };
+    })
+    .filter((p) => p);
+  return paths;
+}
+
+const {
+  frontmatter: { title, description, date },
+  Content,
+} = Astro.props.post;
+---
+
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={description} />
+    <style>
+      .title {
+        font-size: 1.5em;
+        margin: 0.25em 0;
+        color: #ea7950;
+        line-height: 1em;
+      }
+      hr {
+        border-top: 1px solid #ddd;
+        margin: 1em 0;
+      }
+      article :global(h1, h2, h3, h4, h5) {
+        margin: 1.5em 0 0.5em;
+        color: #63ba29;
+      }
+      article :global(h1) {
+        font-size: 1.5em;
+      }
+      article :global(h2) {
+        font-size: 1.25em;
+        color: #ea7950;
+      }
+      article :global(h3, h4, h5) {
+        font-size: 1em;
+        color: #885846;
+      }
+      article :global(p, ul, ol) {
+        margin: 0.75em 0 1em;
+      }
+    </style>
+  </head>
+
+  <body>
+    <Header />
+    <main>
+      <article>
+        <Timestamp ts={date} />
+        <h1 class="title">{title}</h1>
+        <Content />
+      </article>
+    </main>
+    <Footer />
+  </body>
+</html>

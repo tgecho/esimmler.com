@@ -1,0 +1,73 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../config";
+import { getPosts } from "../getPosts";
+import Timestamp from "../components/Timestamp.astro";
+
+const posts = await getPosts();
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <style>
+      h2 {
+        font-size: 1.5em;
+        color: #ea7950;
+        margin: 1em 0 0.25em;
+        line-height: 1em;
+      }
+      ul {
+        list-style-type: none;
+        padding: unset;
+      }
+      ul li {
+        display: flex;
+        align-items: end;
+      }
+      ul li :global(time) {
+        flex: 0 0 6em;
+        color: #595959;
+        text-align: right;
+        padding-right: 1em;
+      }
+      ul li a:visited {
+        color: #8e32dc;
+      }
+      @media (max-width: 55ch) {
+        ul li {
+          display: block;
+        }
+        ul li :global(time) {
+          display: block;
+          text-align: left;
+          margin-top: 1em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <section>
+        <h2>Archives</h2>
+        <ul>
+          {
+            posts.map((post) => {
+              return (
+                <li>
+                  <Timestamp ts={post.date} />
+                  <a href={post.link}>{post.title}</a>
+                </li>
+              );
+            })
+          }
+        </ul>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>

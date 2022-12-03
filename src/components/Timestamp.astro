@@ -1,0 +1,19 @@
+---
+let date = new Date(Astro.props.ts);
+if (Number.isNaN(date.getTime())) {
+  date = new Date();
+}
+const formatted = date.toLocaleDateString("en-us", {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+});
+---
+
+<style>
+  time {
+    font-size: 0.8em;
+    color: #888;
+  }
+</style>
+<time datetime={date.toISOString()}>{formatted}</time>

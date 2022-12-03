@@ -1,0 +1,30 @@
+---
+import { SITE_DESCRIPTION, SITE_TITLE } from "../config";
+import Links from "./Links.astro";
+---
+
+<header>
+  <h1>
+    <a href="/">{SITE_TITLE}</a>
+  </h1>
+  <div class="blurb">{SITE_DESCRIPTION}</div>
+  <Links />
+</header>
+<style>
+  header {
+    margin: 0 0 0.5em;
+    text-align: center;
+  }
+  h1 {
+    margin: 0.5em 0;
+    color: #63ba29;
+    font-size: 1.6em;
+  }
+  .blurb {
+    color: #888;
+    font-size: 0.8em;
+  }
+  header :global(nav) {
+    font-size: 0.9em;
+  }
+</style>

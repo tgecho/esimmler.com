@@ -1,0 +1,83 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../config";
+import { getPosts } from "../getPosts";
+import Timestamp from "../components/Timestamp.astro";
+
+const posts = (await getPosts()).slice(0, 3);
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <style>
+      h2 {
+        font-size: 1.5em;
+        color: #ea7950;
+        margin: 0.25em 0;
+        line-height: 1em;
+      }
+      h2 a {
+        text-decoration: underline;
+      }
+      .content :global(p) {
+        margin: 0.75em 0 1em;
+      }
+      aside {
+        margin: 1em 0;
+        text-align: center;
+      }
+      .read-more {
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <section>
+        {
+          posts.map((post) => {
+            let content = post.description;
+            let summarized = true;
+            const summary = post.summary;
+            if (summary) {
+              content = summary;
+            } else {
+              const full = post.content;
+              content = full;
+              summarized = false;
+            }
+
+            return (
+              <>
+                <article>
+                  <header>
+                    <Timestamp ts={post.date} />
+                    <h2>
+                      <a href={post.link}>{post.title}</a>
+                    </h2>
+                  </header>
+                  <div class="content" set:html={content} />
+                  {summarized && (
+                    <a href={post.link} class="read-more">
+                      Read More
+                    </a>
+                  )}
+                </article>
+                <hr />
+              </>
+            );
+          })
+        }
+      </section>
+
+      <aside><a href="./archive">Find more articles in the Archive</a></aside>
+
+      <Footer />
+    </main>
+  </body>
+</html>
