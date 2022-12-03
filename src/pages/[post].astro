@@ -60,12 +60,15 @@ const {
         padding-top: 0.7em;
         color: #63ba29;
       }
-      article :global(:where(h1, h2, h3, h4, h5) a) {
-        text-decoration: underline;
-        text-decoration-style: dotted;
-      }
+
       article :global(:target a) {
-        text-decoration-style: solid;
+        position: relative;
+      }
+      article :global(:target a::before) {
+        content: "☞";
+        position: absolute;
+        right: calc(100% + 0.25em);
+        top: -0.15em;
       }
       article :global(h1) {
         font-size: 1.5em;
