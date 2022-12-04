@@ -2,41 +2,41 @@
 title: "Deploying web apps robustly"
 ---
 
-Deploying websites is harder than most people realize. Even a simple html page with a single Javascript or CSS file is a distributed system prone to race conditions. A "modern" [Single Page Application](https://developer.mozilla.org/en-US/docs/Glossary/SPA) with [code splitting](https://webpack.js.org/guides/code-splitting/) only exacerbates the problem.
+Deploying websites is harder than people realize. Even a simple html page with a single Javascript or CSS file is a distributed system prone to race conditions. A "modern" [Single Page Application](https://developer.mozilla.org/en-US/docs/Glossary/SPA) with [code splitting](https://webpack.js.org/guides/code-splitting/) is worse.
 
 <!-- more -->
 
-Consider our simple HTML page. We currently have `v1` deployed to our live site. It depends on a couple of `.js`  and `.css` files. A visitor that requests our page will get `v1` of the `.html`, which will cause their browser to fetch the additional files, which will also be `v1`. All good so far!
+Consider our simple HTML page. We have `v1` deployed to our live site. It depends on a couple of `.js`  and `.css` files. A visitor requesting our page will get `v1`, which will in turn trigger requests additional files, which will also be `v1`. All good so far!
 
-Now we've started to deploy `v2` with a few minor changes. A visitor happens to come along a split second before our deploy, and they get `v1` of the `.html`. In the time it takes for their browser to get the `.html` and send back requests for the rest of the files, `v1` has be replaced with `v2`.
+Now we've started to deploy `v2`. A visitor comes along a split second before our deploy and gets `v1` of the page. In the time it takes for their browser to get the `.html` and send requests for the rest of the files, `v1` has be replaced with `v2`.
 
 What happens now?
 
-Maybe nothing! Depending on which files we changed, and how backwards **and** forwards compatible those changes are, there may be no user perceivable effect.
+Maybe nothing! Depending on which files we changed, and how backwards **and** forwards compatible those changes are, there may be no user perceivable impact.
 
-Or, it could fail with varying levels of severity, from minor styling glitch to your complicated Javascript dependent SPA crashing with a white screen.
+Or, it could fail with varying levels of severity, from minor styling glitches to a Javascript exception resulting in a dead, white page.
 
-"But it mostly works most of the time", you say. "They just need to refresh and we'll call it a caching problem!"
+"But it mostly works most of the time", you say. "They just need to refresh and we'll call it a caching bug!"
 
 It gets worse.
 
-A Single Page Application can run for days without reloading the page. If you take no measures to force a reload (politely, I hope) when you deploy a new version, it could persist across several updates. The entire time it's active, it could be expecting to be able to lazy load arbitrarily old versions of your assets (not to mention hitting other API endpoints).
+A Single Page Application can run for days without reloading the page. If you take no measures to force a reload (politely, I hope) when you deploy a new version, it could persist across several updates. The entire time it's active, it will be expect to be able to lazy load arbitrarily old versions of your assets (not to mention hitting other API endpoints).
 
 It's a problem. What are our options?
 
 # Cache busting?
-We rename all of our static assets to contain their version. If the user gets `v1` of the page, they send back a request for `main.v1.js`[^hashbusting]. Except this happened just after we deploy `v2`, so now they get 404. Which is more likely to reliably break things than a subtle version mismatch.
+We add a version to the names of our static assets. When a user gets `v1` of the page, they send a request for `main.v1.js`[^hashbusting]. Except this happened just after we deploy `v2`, so now they get 404. Which is more likely to reliably break things than a subtle version mismatch.
 
 Have we made it worse?
 
 # Use a CDN?
-We keep the cache buster file names, but put a CDN in front of our web server. Now if a `v1` page requests `main.v1.js` they'll get it from the CDN, right? Well, hopefully. If their [edge location](https://www.cloudflare.com/learning/cdn/glossary/edge-server/) happens to have a copy, and you've set the [caching headers properly](https://hacks.mozilla.org/2017/01/using-immutable-caching-to-speed-up-the-web/) to ensure it doesn't try to fetch it from your new, freshly updated server. It'll probably work fairly well for you, since you'll be constantly refreshing the page and priming your local cache.
+We keep the cache buster file names, but put a CDN in front of our web server. Now if a `v1` page requests `main.v1.js` they'll get it from the CDN, right? Well, hopefully. If their [edge location](https://www.cloudflare.com/learning/cdn/glossary/edge-server/) happens to have a copy, and you've set the [caching headers properly](https://hacks.mozilla.org/2017/01/using-immutable-caching-to-speed-up-the-web/) so it doesn't try to fetch it from your freshly updated server. It may work for you personally, since you'll be constantly refreshing the page and priming your local cache.
 
-We've moved the problem back into intermittently maddening territory.
+Great! We've managed to get back into intermittently maddening territory.
 
 # Consolidate your assets
 
-In [You Don't Want Atomic Deploys](https://kevincox.ca/2021/08/24/atomic-deploys/), Kevin Cox distinguishes between "Entries", which are the stably named locations that visitors access directly. `hello.html` is an entry point, and visitors need to be able to navigate to it without knowledge of the current version. "Assets" are all of the things that "Entries" depend on, such as `.js`/`.css` files.
+In [You Don't Want Atomic Deploys](https://kevincox.ca/2021/08/24/atomic-deploys/), Kevin Cox distinguishes between "Entries", which are the stably named locations that visitors access directly. `hello.html` is an entry point, and visitors need to be able to navigate to it without knowledge of the current version. "Assets" are all of the files that "Entries" depend on, such as `.js`/`.css` files.
 
 The key insight to solving this problem robustly is that all assets must remain completely available for as long as an entry point might request them. 
 
