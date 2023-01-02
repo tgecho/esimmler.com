@@ -2,13 +2,13 @@
 title: "Deploying web apps robustly"
 ---
 
-Deploying websites is harder than people realize. Even a simple html page with a single Javascript or CSS file is a distributed system prone to race conditions. A "modern" [Single Page Application](https://developer.mozilla.org/en-US/docs/Glossary/SPA) with [code splitting](https://webpack.js.org/guides/code-splitting/) is worse.
+Deploying a website is harder than it might first appear. Even a simple html page with a single Javascript or CSS file is a distributed system prone to race conditions. A "modern" [Single Page Application](https://developer.mozilla.org/en-US/docs/Glossary/SPA) with [code splitting](https://webpack.js.org/guides/code-splitting/) is worse.
 
 <!-- more -->
 
 Consider our simple HTML page. We have `v1` deployed to our live site. It depends on a couple of `.js`  and `.css` files. A visitor requesting our page will get `v1`, which will in turn trigger requests additional files, which will also be `v1`. All good so far!
 
-Now we've started to deploy `v2`. A visitor comes along a split second before our deploy and gets `v1` of the page. In the time it takes for their browser to get the `.html` and send requests for the rest of the files, `v1` has be replaced with `v2`.
+Now we've started to deploy `v2`. A visitor comes along a split second before our deploy and gets `v1` of the page. In the time it takes for their browser to get the `.html` and send requests for the rest of the files, `v1` has been replaced with `v2`.
 
 What happens now?
 
@@ -20,7 +20,7 @@ Or, it could fail with varying levels of severity, from minor styling glitches t
 
 It gets worse.
 
-A Single Page Application can run for days without reloading the page. If you take no measures to force a reload (politely, I hope) when you deploy a new version, it could persist across several updates. The entire time it's active, it will be expect to be able to lazy load arbitrarily old versions of your assets (not to mention hitting other API endpoints).
+A Single Page Application can run for days without reloading the page. If you take no measures to force a reload (politely, I hope) when you deploy a new version, it could persist across several updates. The entire time it's active, it will expect to be able to lazy load arbitrarily old versions of your assets (not to mention hitting other API endpoints).
 
 It's a problem. What are our options?
 
@@ -34,7 +34,7 @@ We keep the cache buster file names, but put a CDN in front of our web server. N
 
 Great! We've managed to get back into intermittently maddening territory.
 
-# Consolidate your assets
+# Consolidate assets
 
 In [You Don't Want Atomic Deploys](https://kevincox.ca/2021/08/24/atomic-deploys/), Kevin Cox distinguishes between "Entries", which are the stably named locations that visitors access directly. `hello.html` is an entry point, and visitors need to be able to navigate to it without knowledge of the current version. "Assets" are all of the files that "Entries" depend on, such as `.js`/`.css` files.
 
