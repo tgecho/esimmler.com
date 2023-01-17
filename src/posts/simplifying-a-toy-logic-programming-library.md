@@ -1,5 +1,6 @@
 ---
 title: "Simplifying a toy logic programming library"
+date: "2023-01-02"
 ---
 **TLDR:** I made a toy logic programming library in Rust called Canrun ([original announcement](https://esimmler.com/announcing-canrun/)). I just published a new version with fixes for several serious design flaws: [canrun v0.4.0 on docs.rs](https://docs.rs/canrun/0.4.0/canrun/index.html).
 
@@ -58,7 +59,7 @@ IntoT: Into<Value<T>>,
 Index: Into<Value<usize>>,
 Collection: Into<Value<LVec<T>>>,
 ```
-No more weird, interlocking `DomainType<'a, T>'` and `UnifyIn<'a, D>` constraints. No more explicit lifetimes. Before, because of the trickiness of how all the types fit together, I hadn't been able to get the regular [`From`/`Into`](https://doc.rust-lang.org/rust-by-example/conversion/from_into.html) implementations reliably working for `Value` and so made a custom `IntoVal` trait. The new version has a few extra characters, but is much more "normal". 
+No more weird, interlocking `DomainType<'a, T>'` and `UnifyIn<'a, D>` constraints. No more explicit lifetimes. Before, because of the trickiness of how all the types fit together, I hadn't been able to get the regular [`From`/`Into`](https://doc.rust-lang.org/rust-by-example/conversion/from_into.html) implementations reliably working for `Value` and so made a custom `IntoVal` trait. The new version has a few extra characters, but is much more "normal".
 
 ## Bonus: `Goal` is now a trait instead of an enum
 Another compromise I previously made in the face of type complexity was to let [`Goal`](https://docs.rs/canrun/0.4.0/canrun/goals/index.html) be an enum instead of a trait that could be implemented by library users. This wasn't too bad in practice, but it still felt ugly and arbitrary. Now the new [`Goal` trait can be implemented for custom types](https://docs.rs/canrun/0.4.0/canrun/goals/trait.Goal.html).
