@@ -1,5 +1,5 @@
 ---
-title: "Recently (9 Feb 2019)"
+title: "Recently (Feb 2019)"
 date: "2019-02-09"
 ---
 

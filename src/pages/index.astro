@@ -3,10 +3,30 @@ import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../config";
-import { getPosts } from "../getPosts";
+import { getLink } from "../util/getSlug";
 import Timestamp from "../components/Timestamp.astro";
+import { type CollectionEntry, getCollection } from "astro:content";
+import type { AstroComponentFactory } from "astro/dist/runtime/server";
+import { byDate } from "../util/byDate";
+import { getSummary } from "../util/getSummary";
+import { markdown } from "@astropub/md";
 
-const posts = (await getPosts()).slice(0, 3);
+const posts = (await getCollection("blog")).sort(byDate).slice(0, 3);
+
+async function getContent(
+  post: CollectionEntry<"blog">
+): Promise<
+  | { summary: String; Content: null }
+  | { summary: null; Content: AstroComponentFactory }
+> {
+  const summary = getSummary(post);
+  if (summary) {
+    return { summary: await markdown(summary), Content: null };
+  } else {
+    const { Content } = await post.render();
+    return { summary: null, Content };
+  }
+}
 ---
 
 <!DOCTYPE html>
@@ -40,30 +60,24 @@ const posts = (await getPosts()).slice(0, 3);
     <main>
       <section>
         {
-          posts.map((post) => {
-            let content = post.description;
-            let summarized = true;
-            const summary = post.summary;
-            if (summary) {
-              content = summary;
-            } else {
-              const full = post.content;
-              content = full;
-              summarized = false;
-            }
+          await posts.map(async (post) => {
+            const link = getLink(post);
+            const { summary, Content } = await getContent(post);
 
             return (
               <>
                 <article>
                   <header>
-                    <Timestamp ts={post.date} />
+                    <Timestamp ts={post.data.date} />
                     <h2>
-                      <a href={post.link}>{post.title}</a>
+                      <a href={link}>{post.data.title}</a>
                     </h2>
                   </header>
-                  <div class="content" set:html={content} />
-                  {summarized && (
-                    <a href={post.link} class="read-more">
+                  <div class="content" set:html={summary}>
+                    {Content && <Content />}
+                  </div>
+                  {summary && (
+                    <a href={link} class="read-more">
                       Read More
                     </a>
                   )}

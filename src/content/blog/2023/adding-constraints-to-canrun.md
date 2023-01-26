@@ -7,6 +7,8 @@ _Be sure to read [Building Canrun: A statically typed logic programming library 
 
 In basic [μKanren](http://webyrd.net/scheme-2013/papers/HemannMuKanren2013.pdf), values interact through unification[^interpretation]. While impressive results can be achieved with a bit of creativity (see: [math with Peano numbers](https://codon.com/hello-declarative-world#numbers)), I wanted something more direct, understandable and arbitrarily powerful. I like my toys to have at least a veneer of practicality.
 
+<!-- more -->
+
 Take some simple arithmetic:
 
 ```rust

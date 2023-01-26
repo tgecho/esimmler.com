@@ -3,10 +3,12 @@ import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../config";
-import { getPosts } from "../getPosts";
 import Timestamp from "../components/Timestamp.astro";
+import { byDate } from "../util/byDate";
+import { getCollection } from "astro:content";
+import { getLink } from "../util/getSlug";
 
-const posts = await getPosts();
+const posts = (await getCollection("blog")).sort(byDate);
 ---
 
 <!DOCTYPE html>
@@ -59,8 +61,8 @@ const posts = await getPosts();
             posts.map((post) => {
               return (
                 <li>
-                  <Timestamp ts={post.date} />
-                  <a href={post.link}>{post.title}</a>
+                  <Timestamp ts={post.data.date} />
+                  <a href={getLink(post)}>{post.data.title}</a>
                 </li>
               );
             })

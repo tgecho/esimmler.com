@@ -1,5 +1,5 @@
 {
-  "name": "@example/blog",
+  "name": "esimmler-com",
   "type": "module",
   "version": "0.0.1",
   "private": true,
@@ -11,12 +11,15 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/mdx": "^0.12.0",
-    "@astrojs/rss": "^1.0.3",
+    "@astrojs/rss": "^2.1.0",
     "@astrojs/sitemap": "^1.0.0",
-    "astro": "^1.6.12",
+    "@astropub/md": "^0.1.4",
+    "astro": "^2.0.2",
     "rehype-autolink-headings": "^6.1.1",
     "rehype-slug": "^5.1.0",
-    "sass": "^1.56.1"
+    "sass": "^1.57.1"
+  },
+  "devDependencies": {
+    "prettier": "^2.8.3"
   }
 }
