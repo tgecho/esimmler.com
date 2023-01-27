@@ -8,6 +8,7 @@ specifiers:
   prettier: ^2.8.3
   rehype-autolink-headings: ^6.1.1
   rehype-slug: ^5.1.0
+  remove-markdown: ^0.5.0
   sass: ^1.57.1
 
 dependencies:
@@ -17,6 +18,7 @@ dependencies:
   astro: 2.0.2_sass@1.57.1
   rehype-autolink-headings: 6.1.1
   rehype-slug: 5.1.0
+  remove-markdown: 0.5.0
   sass: 1.57.1
 
 devDependencies:
@@ -2447,6 +2449,10 @@ packages:
       unist-util-visit: 4.1.2
     dev: false
 
+  /remove-markdown/0.5.0:
+    resolution: {integrity: sha512-x917M80K97K5IN1L8lUvFehsfhR8cYjGQ/yAMRI9E7JIKivtl5Emo5iD13DhMr+VojzMCiYk8V2byNPwT/oapg==}
+    dev: false
+
   /resolve/1.22.1:
     resolution: {integrity: sha512-nBpuuYuY5jFsli/JIs1oldw6fOQCBioohqWZg/2hiaOybXOft4lonv85uDOKXdf8rhyK159cxU5cDcK/NKk8zw==}
     dependencies:
@@ -2889,6 +2895,7 @@ packages:
 
   /update-browserslist-db/1.0.10_browserslist@4.21.4:
     resolution: {integrity: sha512-OztqDenkfFkbSG+tRxBeAnCVPckDBcvibKd35yDONx6OU8N7sqgwc7rCbkJ/WcYtVRZ4ba68d6byhC21GFh7sQ==}
+    hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
     dependencies:
@@ -2937,6 +2944,7 @@ packages:
   /vite/4.0.4_sass@1.57.1:
     resolution: {integrity: sha512-xevPU7M8FU0i/80DMR+YhgrzR5KS2ORy1B4xcX/cXLsvnUWvfHuqMmVU6N0YiJ4JWGRJJsLCgjEzKjG9/GKoSw==}
     engines: {node: ^14.18.0 || >=16.0.0}
+    hasBin: true
     peerDependencies:
       '@types/node': '>= 14'
       less: '*'

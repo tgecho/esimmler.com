@@ -73,8 +73,8 @@ async function getContent(
                       <a href={link}>{post.data.title}</a>
                     </h2>
                   </header>
-                  <div class="content" set:html={summary}>
-                    {Content && <Content />}
+                  <div class="content">
+                    {summary || (Content && <Content />)}
                   </div>
                   {summary && (
                     <a href={link} class="read-more">

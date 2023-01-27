@@ -1,11 +1,12 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import autolinkHeadings from "rehype-autolink-headings";
-import slug from "rehype-slug"
+import slug from "rehype-slug";
+import markdownIntegration from "@astropub/md";
 
 export default defineConfig({
   site: "https://esimmler.com/",
-  integrations: [sitemap()],
+  integrations: [sitemap(), markdownIntegration()],
   markdown: {
     rehypePlugins: [
       // Normally astro would inject the ids, but apparently it doesn't happen
@@ -18,7 +19,7 @@ export default defineConfig({
   vite: {
     ssr: {
       // some sub-dependencies are still using `require()`
-      external: ['@astropub/md']
+      external: ["@astropub/md"]
     }
   }
 });

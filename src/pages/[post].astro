@@ -5,11 +5,12 @@ import Footer from "../components/Footer.astro";
 import Timestamp from "../components/Timestamp.astro";
 import { getCollection, getEntryBySlug } from "astro:content";
 import { getSlug } from "../util/getSlug";
+import { getPlainTextSummary } from "../util/getSummary";
 
 export interface Props {
-  content: {
+  data: {
     title: string;
-    description: string;
+    description?: string;
     date?: string;
   };
 }
@@ -38,7 +39,8 @@ if (!entry) {
   throw new Error(`Unable to find a post with the slug ${Astro.props.slug}`);
 }
 
-const { title, description, date } = Astro.props.data;
+const { title, date } = Astro.props.data;
+const description = getPlainTextSummary(entry);
 const { Content } = await entry.render();
 ---
 
