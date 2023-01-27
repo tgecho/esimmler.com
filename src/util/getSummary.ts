@@ -16,7 +16,8 @@ export function getPlainTextSummary(entry: CollectionEntry<"blog">, minLength = 
     if (entry.data.description) {
         return entry.data.description;
     }
-    const tokens = removeMarkdown(getSummary(entry)).trim().split(/\s+/);
+    const content = getSummary(entry) || entry.body;
+    const tokens = removeMarkdown(content).trim().split(/\s+/);
     let summary = []
     let length = 0
     for (const token of tokens) {
