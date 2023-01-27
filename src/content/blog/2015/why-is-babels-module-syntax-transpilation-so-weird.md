@@ -3,7 +3,7 @@ title: "Why is Babel's module syntax transpilation so weird?"
 date: "2015-07-27"
 ---
 
-On of the stranger rough edges that comes with using ES6 (via [Babel](http://babeljs.io)/[Webpack](http://webpack.github.io)) revolves around the way Babel transpiles the new module syntax. When you use a named import, Babel's transpiled output seems almost designed to cause a bit of confusion, as it assigns the imported value to a local variable with a rather munged name.
+One of the stranger rough edges that comes with using ES6 (via [Babel](http://babeljs.io)/[Webpack](http://webpack.github.io)) revolves around the way Babel transpiles the new module syntax. When you use a named import, Babel's transpiled output seems almost designed to cause a bit of confusion, as it assigns the imported value to a local variable with a rather munged name.
 
 ```js
 // Original code

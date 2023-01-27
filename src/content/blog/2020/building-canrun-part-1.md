@@ -1,5 +1,5 @@
 ---
-title: "Building Canrun: A statically typed logic programming library for Rust (part 1)"
+title: "Building Canrun: A statically typed logic programming library for Rust"
 date: "2020-07-08"
 ---
 
