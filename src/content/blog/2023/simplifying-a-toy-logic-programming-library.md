@@ -2,9 +2,9 @@
 title: "Simplifying a toy logic programming library"
 date: "2023-01-02"
 ---
-**TLDR:** I made a toy logic programming library in Rust called Canrun ([original announcement](https://esimmler.com/announcing-canrun/)). I just published a new version with fixes for several serious design flaws: [canrun v0.4.0 on docs.rs](https://docs.rs/canrun/0.4.0/canrun/index.html).
+**TLDR:** I made a toy logic programming library in Rust called Canrun ([original announcement](https://esimmler.com/announcing-canrun)). I just published a new version with fixes for several serious design flaws: [canrun v0.4.0 on docs.rs](https://docs.rs/canrun/0.4.0/canrun/index.html).
 
-One design challenge in building out the early versions of [Canrun](https://github.com/tgecho/canrun_rs) was how to store a mix of arbitrary types. I eventually settled on an approach where [you had to explicitly define your "domain" up front](https://esimmler.com/building-canrun-part-1/#typing-the-domain).
+One design challenge in building out the early versions of [Canrun](https://github.com/tgecho/canrun_rs) was how to store a mix of arbitrary types. I eventually settled on an approach where [you had to explicitly define your "domain" up front](https://esimmler.com/building-canrun-part-1#typing-the-domain).
 
 <!-- more -->
 
