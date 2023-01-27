@@ -20,7 +20,7 @@ curl $BOX_URL | tar -x -C ubuntu.$1.box
 
 Next you need to identify a matching EC2 image with the [AMI Locator](http://cloud-images.ubuntu.com/locator/ec2/). At this moment, the EBS equivalent is `ami-e63b3e8e`.
 
-With that, we can fill out a rudimentary `packer.conf`. This will launch matching machines locally and on AWS. [Provisioning steps](https://www.packer.io/docs/templates/provisioners.html) are very situation dependent, so I left them out.
+With that, we can fill out a rudimentary `packer.conf`. This will launch matching machines locally and on AWS. [Provisioning steps](https://developer.hashicorp.com/packer/docs/provisioners) are very situation dependent, so I left them out.
 
 ```json
 {

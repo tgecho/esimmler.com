@@ -257,7 +257,7 @@ While the macro approach feels a bit idiosyncratic, it does have a few really ni
 
 # Onward!
 
-As time allows, I'll dig into constraints, the [`UnifyIn`](https://docs.rs/canrun/latest/canrun/trait.UnifyIn.html)/[`Query`](https://docs.rs/canrun/latest/canrun/trait.Query.html)/[`ReifyIn`](https://docs.rs/canrun/latest/canrun/trait.ReifyIn.html) traits, collections and more!
+As time allows, I'll dig into constraints, the [`UnifyIn`](https://docs.rs/canrun/0.3.0/canrun/trait.UnifyIn.html)/[`Query`](https://docs.rs/canrun/0.3.0/canrun/trait.Query.html)/[`ReifyIn`](https://docs.rs/canrun/0.3.0/canrun/trait.ReifyIn.html) traits, collections and more!
 
 - Github: [https://github.com/tgecho/canrun_rs](https://github.com/tgecho/canrun_rs)
 - Crate: [https://crates.io/crates/canrun](https://crates.io/crates/canrun)

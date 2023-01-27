@@ -29,7 +29,7 @@ const link = cursor(data, ["path"], (change) => {
 });
 ```
 
-A naive, but useful cursor implementation can start out as a function that takes a data structure, an array path and a callback. It returns an object containing the value at that path and a function used to update that value. I'm leaving `getIn` and `setIn` as an exercise for the reader, but something like [Immutable.js](https://facebook.github.io/immutable-js/) makes these types of operations very natural.
+A naive, but useful cursor implementation can start out as a function that takes a data structure, an array path and a callback. It returns an object containing the value at that path and a function used to update that value. I'm leaving `getIn` and `setIn` as an exercise for the reader, but something like [Immutable.js](https://immutable-js.com/) makes these types of operations very natural.
 
 ```js
 // getIn/setIn are left as an exercise for the reader.

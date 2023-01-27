@@ -17,7 +17,7 @@ Podcasting is still a space where sticking to open standards and interoperable i
 
 Includes a nice, non-inflammatory discussion about what "Object Oriented" actually means and why it is important to think about the flow of data and execution when building software.
 
-## [Sensible Software Engineering](https://www.scriptcrafty.com/2019/02/sensible-software-engineering/)
+## [Sensible Software Engineering](https://web.archive.org/web/20190501060656/https://www.scriptcrafty.com/2019/02/sensible-software-engineering/)
 
 > The way most contemporary software is built is structured around local optimums/maximums like Agile and TDD... Agile sacrifices long term vision for short term gains and TDD optimizes for writing more code to achieve correctness.
 
