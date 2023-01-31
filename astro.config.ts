@@ -6,7 +6,12 @@ import markdownIntegration from "@astropub/md";
 
 export default defineConfig({
   site: "https://esimmler.com/",
-  integrations: [sitemap(), markdownIntegration()],
+  integrations: [sitemap({
+    serialize(item) {
+      item.url = item.url.replace(/\/$/, '')
+      return item;
+    },
+  }), markdownIntegration()],
   markdown: {
     rehypePlugins: [
       // Normally astro would inject the ids, but apparently it doesn't happen
