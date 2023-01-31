@@ -36,9 +36,10 @@ export async function getStaticPaths() {
 // We're using the internal auto generated slug to make this lookup cleaner/faster
 const entry = await getEntryBySlug("blog", Astro.props.slug);
 if (!entry) {
-  throw new Error(`Unable to find a post with the slug ${Astro.props.slug}`);
+  throw new Error(`Unable to find a post with the path ${Astro.props.slug}`);
 }
 
+const slug = Astro.params.post;
 const { title, date } = Astro.props.data;
 const description = getPlainTextSummary(entry);
 const { Content } = await entry.render();
@@ -47,7 +48,7 @@ const { Content } = await entry.render();
 <html lang="en">
   <head>
     <BaseHead title={title} description={description} />
-    <link rel="canonical" href={`https://esimmler.com/${Astro.props.slug}`} />
+    <link rel="canonical" href={`https://esimmler.com/${slug}`} />
     <style>
       .title {
         font-size: 1.5em;
