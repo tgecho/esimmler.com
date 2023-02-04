@@ -1,6 +1,7 @@
 ---
 title: "Simplifying a toy logic programming library"
 date: "2023-01-02"
+tags: ["rust", "canrun"]
 summary: "I made a toy logic programming library in Rust called Canrun. I just published a new version with fixes for several serious design flaws."
 ---
 

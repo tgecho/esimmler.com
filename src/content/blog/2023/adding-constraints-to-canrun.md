@@ -1,6 +1,7 @@
 ---
 title: "Adding constraints to Canrun"
 date: "2023-01-24"
+tags: ["rust", "canrun"]
 summary: "In basic μKanren, values interact through unification. While impressive results can be achieved with a bit of creativity (see: math with Peano numbers), I wanted something more direct, understandable and arbitrarily powerful. I like my toys to have at least a veneer of practicality."
 ---
 

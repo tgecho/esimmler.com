@@ -1,0 +1,54 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Timestamp from "../components/Timestamp.astro";
+import { getLink } from "../util/getSlug";
+
+export interface Props {
+    posts: CollectionEntry<"blog">[];
+}
+
+const posts = Astro.props.posts;
+---
+
+<style>
+    ul {
+        list-style-type: none;
+        padding: unset;
+    }
+    ul li {
+        display: flex;
+        align-items: end;
+    }
+    ul li :global(time) {
+        flex: 0 0 6em;
+        color: #595959;
+        text-align: right;
+        padding-right: 1em;
+    }
+    ul li a:visited {
+        color: #8e32dc;
+    }
+    @media (max-width: 55ch) {
+        ul li {
+            display: block;
+        }
+        ul li :global(time) {
+            display: block;
+            text-align: left;
+            margin-top: 1em;
+        }
+    }
+</style>
+
+<ul>
+    {
+        posts.map((post) => {
+            return (
+                <li>
+                    <Timestamp ts={post.data.date} />
+                    <a href={getLink(post)}>{post.data.title}</a>
+                </li>
+            );
+        })
+    }
+</ul>

@@ -1,6 +1,7 @@
 ---
 title: "Arrow functions and Javascript's syntactic baggage"
 date: "2015-09-12"
+tags: ["javascript"]
 ---
 
 I recently learned two new things about Javascript. The first discovery makes me feel silly. Somehow I missed that there is a multiline form as well as the short, single line form.

@@ -1,6 +1,7 @@
 ---
 title: "Handling failure in Rust"
 date: "2018-12-26"
+tags: ["rust"]
 ---
 
 I've begun to seriously dig into the [Rust programming language](https://www.rust-lang.org/). The learning curve is real, but I already appreciate the work they've put into ergonomics.

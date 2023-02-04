@@ -1,6 +1,7 @@
 ---
 title: "Using cursors to simplify form element data binding"
 date: "2015-10-01"
+tags: ["javascript", "react"]
 ---
 
 In [React](https://facebook.github.io/react/), the most often cited method of binding form elements to data is to pass the value along with an update function.

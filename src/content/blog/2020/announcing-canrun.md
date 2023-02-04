@@ -1,6 +1,7 @@
 ---
 title: "Canrun: A logic programming library inspired by the *Kanren family"
 date: "2020-07-03"
+tags: ["rust", "canrun"]
 ---
 
 > Update 2 Jan, 2023: Many aspects of this library have been redesigned, especially relating to the domain stuff: [Simplifying a toy logic programming library](/simplifying-a-toy-logic-programming-library)

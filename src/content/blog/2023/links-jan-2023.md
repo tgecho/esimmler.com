@@ -1,6 +1,7 @@
 ---
 title: "January Links"
 date: "2023-01-31"
+tags: ["links"]
 ---
 
 - [Julia Evans](https://jvns.ca/) on [Examples of floating point problems](https://jvns.ca/blog/2023/01/13/examples-of-floating-point-problems/) and [Examples of problems with integers](https://jvns.ca/blog/2023/01/18/examples-of-problems-with-integers/)<br>
