@@ -1,0 +1,27 @@
+---
+title: "A hardware switch for dual booting"
+date: "2023-02-05"
+---
+
+
+sudo fgrep windows /boot/grub2/grub.cfg
+menuentry 'Windows Boot Manager (on /dev/nvme0n1p1)' --class windows --class os $menuentry_id_option 'osprober-efi-CE17-A4E0' {
+
+
+/etc/grub.d/40_custom
+
+```
+#!/usr/bin/sh
+exec tail -n +3 $0
+# This file provides an easy way to add custom menu entries.  Simply type the
+# menu entries you want to add after this comment.  Be careful not to change
+# the 'exec tail' line above.
+
+search --label --set switch_drive boot_windows
+if [ "${switch_drive}" ] ; then
+    set default="Windows Boot Manager (on /dev/nvme0n1p1)"
+fi
+```
+
+
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg
