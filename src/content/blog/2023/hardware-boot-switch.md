@@ -7,6 +7,8 @@ I recently added a spare SSD so I could play with desktop Linux again, and I aga
 
 The basic idea came together smoothly enough, but I have a few minor additions I thought worth mentioning.
 
+<!-- more -->
+
 In the guide, you detect the presence of the "switch drive" and set the default to the index of the entry you want to boot into.
 
 ```sh
