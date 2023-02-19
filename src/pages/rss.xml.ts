@@ -22,10 +22,16 @@ export async function get() {
     };
   });
 
-  return rss({
+  const feed = await rss({
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     site: import.meta.env.SITE,
     items: await Promise.all(items),
   });
+  // Doing terrible things since the rss function doesn't
+  // respect my wish to not have trailing slashes.
+  feed.body = feed.body.replace(/<link>https:\/\/esimmler.com\/[^\/]+\/<\/link>/g, link => {
+    return link.replace('/</link>', '</link>');
+  })
+  return feed;
 }
