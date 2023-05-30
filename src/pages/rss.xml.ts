@@ -7,7 +7,7 @@ import { getSummary } from "../util/getSummary";
 import { markdown } from "@astropub/md";
 
 export async function get() {
-  const posts = (await getCollection('blog')).sort(byDate);
+  const posts = (await getCollection("blog")).sort(byDate);
   const items = (await posts).map(async (post, index) => {
     const content = await markdown(index < 10 ? post.body : getSummary(post));
     return {
@@ -18,7 +18,7 @@ export async function get() {
       // If we double it up it seems to only strip one :/
       // https://github.com/withastro/astro/issues/5677
       // Need to be sure to check this on the next version change.
-      customData: `<description><![CDATA[<![CDATA[${content}]]]]></description>`
+      customData: `<description><![CDATA[<![CDATA[${content}]]]]></description>`,
     };
   });
 
@@ -27,11 +27,8 @@ export async function get() {
     description: SITE_DESCRIPTION,
     site: import.meta.env.SITE,
     items: await Promise.all(items),
+    trailingSlash: false,
   });
-  // Doing terrible things since the rss function doesn't
-  // respect my wish to not have trailing slashes.
-  feed.body = feed.body.replace(/<link>https:\/\/esimmler.com\/[^\/]+\/<\/link>/g, link => {
-    return link.replace('/</link>', '</link>');
-  })
+
   return feed;
 }
