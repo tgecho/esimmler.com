@@ -30,7 +30,7 @@ export default defineConfig({
       external: ["@astropub/md"],
     },
   },
-  experimental: {
+  build: {
     inlineStylesheets: `auto`,
   },
   compressHTML: true,
