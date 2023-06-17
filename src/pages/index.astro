@@ -46,13 +46,10 @@ async function getContent(
       }
       .content :global(p) {
         margin: 0.75em 0 1em;
-      }
+
       aside {
         margin: 1em 0;
         text-align: center;
-      }
-      .read-more {
-        font-weight: 600;
       }
     </style>
   </head>
@@ -78,9 +75,9 @@ async function getContent(
                     {summary || (Content && <Content />)}
                   </div>
                   {summary && (
-                    <a href={link} class="read-more">
-                      Read More
-                    </a>
+                    <div class="read-more">
+                      <a href={link}>{post.data.title}</a>
+                    </div>
                   )}
                 </article>
                 <hr />
