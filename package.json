@@ -19,7 +19,7 @@
     "rehype-autolink-headings": "^6.1.1",
     "rehype-slug": "^5.1.0",
     "remove-markdown": "^0.5.0",
-    "sass": "^1.63.6"
+    "sass": "^1.64.1"
   },
   "devDependencies": {
     "prettier": "^3.0.0"
