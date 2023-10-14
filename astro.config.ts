@@ -24,12 +24,6 @@ export default defineConfig({
       [autolinkHeadings, { behavior: "wrap" }],
     ],
   },
-  vite: {
-    ssr: {
-      // some sub-dependencies are still using `require()`
-      external: ["@astropub/md"],
-    },
-  },
   build: {
     inlineStylesheets: `auto`,
   },
