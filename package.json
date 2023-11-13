@@ -11,7 +11,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/markdown-remark": "^3.3.0",
+    "@astrojs/markdown-remark": "^3.4.0",
     "@astrojs/rss": "^3.0.0",
     "@astrojs/sitemap": "^3.0.1",
     "@astropub/md": "https://gitpkg.now.sh/astro-community/md/packages/md?f8c32632e53ddadcb74608a149d0b2cf168016d9",
