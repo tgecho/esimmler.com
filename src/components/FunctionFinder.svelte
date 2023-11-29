@@ -7,7 +7,7 @@
     let uniqueResults: string[] = [];
     let failedExamples: string[] = [];
     let failed = 0;
-    let status: 'invalid' | 'ready' | 'running' | 'paused';
+    let status: 'invalid' | 'ready' | 'running' | 'paused' | 'done';
 
     const MAX_RESULTS = 200;
 
@@ -34,7 +34,7 @@
         worker.postMessage({
             type: 'init',
             cases,
-            maxDepth: 3,
+            maxDepth,
         });
     }
     function stop() {
@@ -42,14 +42,18 @@
     }
     worker.addEventListener('message', (e) => {
         if (status === 'running') {
-            worker.postMessage({
-                type: 'batch',
-                count: 10000,
-            });
+            if (e.data.done) {
+                status = 'done';
+            } else {
+                worker.postMessage({
+                    type: 'batch',
+                    count: 50000,
+                });
+            }
         }
         switch (e.data.type) {
             case 'batch': {
-                if (status === 'running' || status === 'paused') {
+                if (status === 'running' || status === 'paused' || status === 'done') {
                     failed += e.data.failed;
                     let updates = false;
                     for (const result of e.data.results) {
@@ -81,11 +85,13 @@
     let errors: string[] = [];
     let warnings: string[] = [];
     let maxLines = 1;
+    let maxDepth = 3;
     function countLines(input: InputValue) {
         return input.validated instanceof Error ? NaN : input.validated.length;
     }
 
     $: {
+        maxDepth;
         const all = [...inputs, output];
         const counts = new Set(all.map(countLines));
         if (counts.size > 1) {
@@ -107,6 +113,9 @@
     * {
         font-family: sans-serif;
     }
+    p {
+        max-width: 40em;
+    }
     h2 {
         font-size: 1.5em;
         margin: 1em 0 0.5em;
@@ -121,6 +130,7 @@
         flex-direction: column;
         text-align: center;
         justify-content: space-between;
+        align-items: center;
     }
     .col h3 {
         margin: 0;
@@ -128,6 +138,9 @@
         font-size: 1.5em;
         position: relative;
         font-family: monospace;
+    }
+    .control {
+        width: 10em;
     }
     button.action {
         font-family: monospace;
@@ -243,7 +256,7 @@
 
 <h1>Brute Force Function Finder</h1>
 <p>Enter a set of desired input and output values (numbers only!) and the BFFF will attempt to find a function to match.</p>
-<p>WARNING: This is currently limited to a max expression depth of 3, but it will still run for a VERY long time. Also, it will generate a lot of silly functions. It will attempt to sort the simplest/cheapest to the top, but you're responsible for choosing and validating whatever it spits out.</p>
+<p>WARNING: It can run for a VERY long time, even at the default max expression depth of 3. Also, it will generate a lot of silly functions. It will attempt to sort the simplest/cheapest to the top, but you're responsible for choosing and validating whatever it spits out.</p>
 
 <div class="editor">
     {#each inputs as input, index}
@@ -270,7 +283,8 @@
         {#if status === 'running'}
             <button on:click={stop}>Pause</button>
         {:else}
-            <button disabled={status === 'invalid'} on:click={start}>{status === 'paused' ? 'Resume' : 'Start'}</button>
+            <label>Max Depth <input type="number" size="4" min={1} max={9} bind:value={maxDepth} /></label>
+            <button disabled={status === 'invalid'} on:click={start}>{status === 'paused' ? 'Resume' : status === 'done' ? 'Done ✓' : 'Start'}</button>
         {/if}
     </div>
 </div>
