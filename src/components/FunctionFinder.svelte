@@ -5,12 +5,16 @@
     const worker = new Worker(new URL('../lib/bfff', import.meta.url), {type: "module"});
     const resultMap = new Map<string, number>();
     let uniqueResults: string[] = [];
+    let failedExamples: string[] = [];
     let failed = 0;
     let status: 'invalid' | 'ready' | 'running' | 'paused';
+
+    const MAX_RESULTS = 200;
 
     function reset() {
         resultMap.clear();
         uniqueResults = [];
+        failedExamples = [];
         failed = 0;
     }
 
@@ -40,7 +44,7 @@
         if (status === 'running') {
             worker.postMessage({
                 type: 'batch',
-                count: 100000,
+                count: 10000,
             });
         }
         switch (e.data.type) {
@@ -57,7 +61,13 @@
                     if (updates) {
                         uniqueResults = Array.from(resultMap.entries())
                             .sort((a, b) => a[1] - b[1])
-                            .map(([code]) => code);
+                            .map(([code]) => code)
+                            .slice(0, MAX_RESULTS);
+                    }
+                    if (e.data.failedExamples?.length) {
+                        failedExamples = e.data.failedExamples
+                            .concat(failedExamples)
+                            .slice(0, MAX_RESULTS);
                     }
                 }
                 break;
@@ -213,6 +223,14 @@
             transform: rotate(-360deg);
         }
     }
+    .results {
+        display: flex;
+        flex-direction: row;
+        gap: 1em;
+    }
+    .passed, .failed {
+        width: 50%;
+    }
     .results pre {
         font-family: monospace;
         margin: 0;
@@ -250,7 +268,7 @@
     <div class="col control">
         <div class="loader" class:active={status === 'running'}></div>
         {#if status === 'running'}
-            <button on:click={stop}>Stop</button>
+            <button on:click={stop}>Pause</button>
         {:else}
             <button disabled={status === 'invalid'} on:click={start}>{status === 'paused' ? 'Resume' : 'Start'}</button>
         {/if}
@@ -268,20 +286,35 @@
     {/if}
 </ul>
 
-<h2>Results</h2>
-
-{#if uniqueResults.length === 0 && status !== 'running'}
-    <p>Start a new run to get results</p>
-{/if}
-
 <div class="results">
-    {#if failed}
-        <p>{failed} attempts failed</p>
-    {:else if status === 'running' && uniqueResults.length === 0}
-        <p>Loading...</p>
-    {/if}
+    <div class="passed">
+        <h2>Passed</h2>
+        {#if uniqueResults.length > 0}
+            <p>{#if uniqueResults.length === MAX_RESULTS}The top{/if} {uniqueResults.length} successful attempts (by estimated cost)</p>
+        {:else if status === 'running'}
+            <p>Loading...</p>
+        {:else}
+            <p>Start a new run to get results</p>
+        {/if}
 
-    {#each uniqueResults as result}
-        <pre in:fade={{duration: 1000}}>{result}</pre>
-    {/each}
+        <div>
+            {#each uniqueResults as result}
+                <pre in:fade={{duration: 1000}}>{result}</pre>
+            {/each}
+        </div>
+    </div>
+
+    <div class="failed">
+        <h2>Failed</h2>
+        {#if failed}
+            <p>{failedExamples.length} examples from {failed} total failed attempts</p>
+        {:else}
+            <p>None yet!</p>
+        {/if}
+        <div>
+            {#each failedExamples as failed}
+                <pre in:fade={{duration: 1000}}>{failed}</pre>
+            {/each}
+        </div>
+    </div>
 </div>
