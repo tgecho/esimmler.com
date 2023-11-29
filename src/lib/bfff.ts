@@ -451,7 +451,9 @@ export async function findFunctions(cases: Case[], maxDepth = 3) {
 }
 
 function expr(inputFuns: FunFactory[], op: Fun) {
-  return `(${inputFuns!.map(o => o.name).join(", ")}) => ${op.js()}`;
+  let js = op.js();
+  if (js.at(0) === "(" && js.at(-1) === ")") js = js.slice(1, -1);
+  return `(${inputFuns!.map(o => o.name).join(", ")}) => ${js}`;
 }
 
 export type WorkerMessage =
