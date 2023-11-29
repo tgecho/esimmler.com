@@ -5,12 +5,16 @@
     const worker = new Worker(new URL('../lib/bfff', import.meta.url), {type: "module"});
     const resultMap = new Map<string, number>();
     let uniqueResults: string[] = [];
+    let failedExamples: string[] = [];
     let failed = 0;
-    let status: 'invalid' | 'ready' | 'running' | 'paused';
+    let status: 'invalid' | 'ready' | 'running' | 'paused' | 'done';
+
+    const MAX_RESULTS = 200;
 
     function reset() {
         resultMap.clear();
         uniqueResults = [];
+        failedExamples = [];
         failed = 0;
     }
 
@@ -30,7 +34,7 @@
         worker.postMessage({
             type: 'init',
             cases,
-            maxDepth: 3,
+            maxDepth,
         });
     }
     function stop() {
@@ -38,14 +42,18 @@
     }
     worker.addEventListener('message', (e) => {
         if (status === 'running') {
-            worker.postMessage({
-                type: 'batch',
-                count: 100000,
-            });
+            if (e.data.done) {
+                status = 'done';
+            } else {
+                worker.postMessage({
+                    type: 'batch',
+                    count: 50000,
+                });
+            }
         }
         switch (e.data.type) {
             case 'batch': {
-                if (status === 'running' || status === 'paused') {
+                if (status === 'running' || status === 'paused' || status === 'done') {
                     failed += e.data.failed;
                     let updates = false;
                     for (const result of e.data.results) {
@@ -57,7 +65,13 @@
                     if (updates) {
                         uniqueResults = Array.from(resultMap.entries())
                             .sort((a, b) => a[1] - b[1])
-                            .map(([code]) => code);
+                            .map(([code]) => code)
+                            .slice(0, MAX_RESULTS);
+                    }
+                    if (e.data.failedExamples?.length) {
+                        failedExamples = e.data.failedExamples
+                            .concat(failedExamples)
+                            .slice(0, MAX_RESULTS);
                     }
                 }
                 break;
@@ -71,11 +85,13 @@
     let errors: string[] = [];
     let warnings: string[] = [];
     let maxLines = 1;
+    let maxDepth = 3;
     function countLines(input: InputValue) {
         return input.validated instanceof Error ? NaN : input.validated.length;
     }
 
     $: {
+        maxDepth;
         const all = [...inputs, output];
         const counts = new Set(all.map(countLines));
         if (counts.size > 1) {
@@ -97,6 +113,9 @@
     * {
         font-family: sans-serif;
     }
+    p {
+        max-width: 40em;
+    }
     h2 {
         font-size: 1.5em;
         margin: 1em 0 0.5em;
@@ -111,6 +130,7 @@
         flex-direction: column;
         text-align: center;
         justify-content: space-between;
+        align-items: center;
     }
     .col h3 {
         margin: 0;
@@ -118,6 +138,9 @@
         font-size: 1.5em;
         position: relative;
         font-family: monospace;
+    }
+    .control {
+        width: 10em;
     }
     button.action {
         font-family: monospace;
@@ -213,6 +236,14 @@
             transform: rotate(-360deg);
         }
     }
+    .results {
+        display: flex;
+        flex-direction: row;
+        gap: 1em;
+    }
+    .passed, .failed {
+        width: 50%;
+    }
     .results pre {
         font-family: monospace;
         margin: 0;
@@ -225,7 +256,7 @@
 
 <h1>Brute Force Function Finder</h1>
 <p>Enter a set of desired input and output values (numbers only!) and the BFFF will attempt to find a function to match.</p>
-<p>WARNING: This is currently limited to a max expression depth of 3, but it will still run for a VERY long time. Also, it will generate a lot of silly functions. It will attempt to sort the simplest/cheapest to the top, but you're responsible for choosing and validating whatever it spits out.</p>
+<p>WARNING: It can run for a VERY long time, even at the default max expression depth of 3. Also, it will generate a lot of silly functions. It will attempt to sort the simplest/cheapest to the top, but you're responsible for choosing and validating whatever it spits out.</p>
 
 <div class="editor">
     {#each inputs as input, index}
@@ -250,9 +281,10 @@
     <div class="col control">
         <div class="loader" class:active={status === 'running'}></div>
         {#if status === 'running'}
-            <button on:click={stop}>Stop</button>
+            <button on:click={stop}>Pause</button>
         {:else}
-            <button disabled={status === 'invalid'} on:click={start}>{status === 'paused' ? 'Resume' : 'Start'}</button>
+            <label>Max Depth <input type="number" size="4" min={1} max={9} bind:value={maxDepth} /></label>
+            <button disabled={status === 'invalid'} on:click={start}>{status === 'paused' ? 'Resume' : status === 'done' ? 'Done ✓' : 'Start'}</button>
         {/if}
     </div>
 </div>
@@ -268,20 +300,35 @@
     {/if}
 </ul>
 
-<h2>Results</h2>
-
-{#if uniqueResults.length === 0 && status !== 'running'}
-    <p>Start a new run to get results</p>
-{/if}
-
 <div class="results">
-    {#if failed}
-        <p>{failed} attempts failed</p>
-    {:else if status === 'running' && uniqueResults.length === 0}
-        <p>Loading...</p>
-    {/if}
+    <div class="passed">
+        <h2>Passed</h2>
+        {#if uniqueResults.length > 0}
+            <p>{#if uniqueResults.length === MAX_RESULTS}The top{/if} {uniqueResults.length} successful attempts (by estimated cost)</p>
+        {:else if status === 'running'}
+            <p>Loading...</p>
+        {:else}
+            <p>Start a new run to get results</p>
+        {/if}
 
-    {#each uniqueResults as result}
-        <pre in:fade={{duration: 1000}}>{result}</pre>
-    {/each}
+        <div>
+            {#each uniqueResults as result}
+                <pre in:fade={{duration: 1000}}>{result}</pre>
+            {/each}
+        </div>
+    </div>
+
+    <div class="failed">
+        <h2>Failed</h2>
+        {#if failed}
+            <p>{failedExamples.length} examples from {failed} total failed attempts</p>
+        {:else}
+            <p>None yet!</p>
+        {/if}
+        <div>
+            {#each failedExamples as failed}
+                <pre in:fade={{duration: 1000}}>{failed}</pre>
+            {/each}
+        </div>
+    </div>
 </div>
