@@ -4,12 +4,11 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../config";
 import { byDate } from "../util/byDate";
 import { getLink } from "../util/getSlug";
 import { getSummary } from "../util/getSummary";
-import { markdown } from "@astropub/md";
 
-export async function get() {
+export async function GET() {
   const posts = (await getCollection("blog")).sort(byDate);
   const items = (await posts).map(async (post, index) => {
-    const content = await markdown(index < 10 ? post.body : getSummary(post));
+    const content = index < 10 ? post.compiledContent() : getSummary(post);
     return {
       title: post.data.title,
       pubDate: post.data.date,
@@ -31,4 +30,7 @@ export async function get() {
   });
 
   return feed;
+}
+function sanitizeHtml(arg0: any) {
+  throw new Error("Function not implemented.");
 }
