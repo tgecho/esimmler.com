@@ -1,6 +1,7 @@
 ---
 title: "Adding constraints to Canrun"
 date: "2023-01-24"
+summary: "In basic μKanren, values interact through unification. While impressive results can be achieved with a bit of creativity (see: math with Peano numbers), I wanted something more direct, understandable and arbitrarily powerful. I like my toys to have at least a veneer of practicality."
 ---
 
 _Be sure to read [Building Canrun: A statically typed logic programming library for Rust](/building-canrun-part-1) to put this article in context. Also see my [update post with more recent API/implementation notes](/simplifying-a-toy-logic-programming-library)._
@@ -22,6 +23,7 @@ let goal = add(left, right, result);
 We have three variables representing the two numbers to be added and the result. We want to be able to derive any one of these values so long as the other two numbers have been resolved. Enter constraints.
 
 A constraint is a way to register a function to be called when one or more `Value`s are resolved. The first part is a [`Constraint`](https://docs.rs/canrun/latest/canrun/core/constraints/trait.Constraint.html) trait, which as of this moment looks like this:
+
 ```rust
 pub trait Constraint {
     fn attempt(&self, state: &State) -> Result<ResolveFn, LVarList>;
@@ -31,6 +33,7 @@ pub trait Constraint {
 When passed into [`State::constrain()`](https://docs.rs/canrun/latest/canrun/core/struct.State.html#method.constrain), the constraint's `attempt()` method is immediately run with readonly access to `&State` so it can resolve values. If it resolves enough of them, it can return a boxed `FnOnce(State) -> Option<State>` function which will be called to actually update the state.
 
 So for example, if `left` and `right` have been resolved, our `add` constraint might return something like this:
+
 ```rust
 Box::new(|state| {
 	let result_resolved = Value::new(left_resolved + right_resolved);
@@ -53,4 +56,4 @@ All in all, unify/fork/constrain seem like a really solid core combo on which to
 
 ---
 
-[^interpretation]: As always, anything I say about *Kanren or... really anything I say should be taken with a grain of salt. As I've rambled at a few formerly close friends, this is applied science without the science, or to be honest even much application.
+[^interpretation]: As always, anything I say about \*Kanren or... really anything I say should be taken with a grain of salt. As I've rambled at a few formerly close friends, this is applied science without the science, or to be honest even much application.
