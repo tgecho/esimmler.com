@@ -5,28 +5,12 @@ import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../config";
 import { getLink } from "../util/getSlug";
 import Timestamp from "../components/Timestamp.astro";
-import { type CollectionEntry, getCollection } from "astro:content";
-import type { AstroComponentFactory } from "astro/dist/runtime/server";
+import { getCollection } from "astro:content";
 import { byDate } from "../util/byDate";
 import { getSummary } from "../util/getSummary";
-import { markdown } from "@astropub/md";
 
-const posts = (await getCollection("blog")).sort(byDate).slice(0, 3);
+const posts = (await getCollection("blog")).sort(byDate).slice(0, 7);
 
-async function getContent(
-  post: CollectionEntry<"blog">
-): Promise<
-  | { summary: String; Content: null }
-  | { summary: null; Content: AstroComponentFactory }
-> {
-  const summary = getSummary(post);
-  if (summary) {
-    return { summary: await markdown(summary), Content: null };
-  } else {
-    const { Content } = await post.render();
-    return { summary: null, Content };
-  }
-}
 ---
 
 <!DOCTYPE html>
@@ -44,11 +28,14 @@ async function getContent(
       h2 a {
         text-decoration: underline;
       }
-      .content :global(p) {
+      article {
+        margin-bottom: 1.5em;
+      }
+      article p {
         margin: 0.75em 0 1em;
-
+      }
       aside {
-        margin: 1em 0;
+        margin: 2em 0 1em;
         text-align: center;
       }
     </style>
@@ -60,7 +47,7 @@ async function getContent(
         {
           await posts.map(async (post) => {
             const link = getLink(post);
-            const { summary, Content } = await getContent(post);
+            const summary = await getSummary(post);
 
             return (
               <>
@@ -71,16 +58,10 @@ async function getContent(
                       <a href={link}>{post.data.title}</a>
                     </h2>
                   </header>
-                  <div class="content">
-                    {summary || (Content && <Content />)}
-                  </div>
-                  {summary && (
-                    <div class="read-more">
-                      <a href={link}>{post.data.title}</a>
-                    </div>
-                  )}
+                  {summary && <p>
+                    {summary}
+                  </p>}
                 </article>
-                <hr />
               </>
             );
           })

@@ -1,6 +1,7 @@
 ---
 title: "Slowly listening to old podcasts"
 date: "2022-11-25"
+summary: "I made a service that lets you replay old podcast feeds as if they're just starting."
 ---
 
 **tl;dr** I made a service that lets you replay old podcast feeds as if they're just starting: [PodReplay.com](https://podreplay.com/). Continue reading if you're curious to read a smattering of design notes and half remembered anecdotes.

@@ -1,6 +1,7 @@
 ---
 title: "A hardware boot switch"
 date: "2023-02-05"
+summary: "I recently added a spare SSD so I could play with desktop Linux again, and I again quickly grew tired of trying to catch the GRUB boot selection screen. So I made a thing."
 ---
 
 I recently added a spare SSD so I could play with desktop Linux again, and I again quickly grew tired of trying to catch the GRUB boot selection screen. A bit of searching turned up this project log for a [Simplified hardware boot switch](https://hackaday.io/project/179539-hardware-boot-selection-switch/log/196047-simplified-hardware-boot-switch).
@@ -22,7 +23,7 @@ else
 fi
 ```
 
-This works great! Until Fedora starts adding alternate/recovery kernel  boot options after system updates. This causes the index of the Windows entry to shift down unpredictably.
+This works great! Until Fedora starts adding alternate/recovery kernel boot options after system updates. This causes the index of the Windows entry to shift down unpredictably.
 
 <img src="/images/grub-boot-screen.jpg" loading="lazy" alt="A GRUB boot selection screen showing four Fedora entries (mostly differing only by kernel  version) and a Windows option." />
 
@@ -46,6 +47,7 @@ fi
 ```
 
 I found the exact string label of the Windows entry with this commend:
+
 ```sh
 $ sudo fgrep windows /boot/grub2/grub.cfg
 menuentry 'Windows Boot Manager (on /dev/nvme0n1p1)' --class windows --class os $menuentry_id_option 'osprober-efi-CE17-A4E0' {
@@ -54,6 +56,7 @@ menuentry 'Windows Boot Manager (on /dev/nvme0n1p1)' --class windows --class os 
 Also note that I'm looking up the `switch_drive` by `--label` instead of `--fs-uuid`. It's a minor tweak, but it feels a little less coupled to the specific device.
 
 Finally, wrap it up by generating the GRUB config (this is in Fedora 37):
+
 ```
 $ sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 ```
