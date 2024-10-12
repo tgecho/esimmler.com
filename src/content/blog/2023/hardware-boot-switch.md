@@ -25,7 +25,7 @@ fi
 
 This works great! Until Fedora starts adding alternate/recovery kernel boot options after system updates. This causes the index of the Windows entry to shift down unpredictably.
 
-<img src="/images/grub-boot-screen.jpg" loading="lazy" alt="A GRUB boot selection screen showing four Fedora entries (mostly differing only by kernel  version) and a Windows option." />
+![A GRUB boot selection screen showing four Fedora entries (mostly differing only by kernel  version) and a Windows option.](./hardware-boot-switch/grub-boot-screen.jpg)
 
 The first time it happened I just bumped the `set default` up to `"3"`. Then it happened again, and I began searching for a more robust way to select the default.
 
@@ -63,4 +63,4 @@ $ sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 
 My computer case doesn't lend itself well to direct modding, so I 3D printed a crude enclosure and leave it plugged on the end of a USB extension cable. I should hit a net time savings from this project in about ten years.
 
-<img src="/images/switchable-thumbdrive.jpg" loading="lazy" alt="A picture of a thumbdrive in a 3D printed enclosure with an on/off switch on top." />
+![A picture of a thumbdrive in a 3D printed enclosure with an on/off switch on top.](./hardware-boot-switch/switchable-thumbdrive.jpg)
