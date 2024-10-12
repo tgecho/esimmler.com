@@ -1,3 +1,5 @@
+@use "sass:color";
+
 html {
   background: hsl(48deg, 45%, 93%);
   background: linear-gradient(10deg, hsl(48deg, 45%, 94%) 0%, #fff 80%);
@@ -5,7 +7,7 @@ html {
 }
 body {
   font-family: "Baskerville", "Palatino", sans-serif;
-  font-size: min(26px, max(20px, 2.5vmin));
+  font-size: min(26px, max(20px, 2.15vmin));
   margin: auto;
   padding: 1em;
   max-width: 75ch;
@@ -116,7 +118,7 @@ hr {
     content: "⁂"; // https://en.wikipedia.org/wiki/Asterism_(typography)
     display: block;
     text-align: center;
-    color: lighten(saturate(#ea7950, 10), 20);
+    color: color.adjust(#ea7950, $saturation: 10%, $lightness: 20%);
     clear: both;
   }
 }

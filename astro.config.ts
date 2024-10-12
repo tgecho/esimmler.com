@@ -5,7 +5,10 @@ import slug from "rehype-slug";
 import svelte from "@astrojs/svelte";
 
 export default defineConfig({
-  site: "https://esimmler.com/",
+  site:
+    process.env.NODE_ENV === "production"
+      ? "https://esimmler.com/"
+      : "http://localhost:4321",
   integrations: [
     sitemap({
       serialize(item) {

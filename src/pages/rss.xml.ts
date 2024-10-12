@@ -26,19 +26,18 @@ export async function GET() {
     }
   }
 
-  // console.log("postImportResult all", postImportResult);
   const posts = (await getCollection("blog")).sort(byDate);
   const items = (await posts).map(async (post, index) => {
-    const content = index < 10 ? getCompiledContent(post) : getSummary(post);
+    const description =
+      index < 10 ? getCompiledContent(post) : getSummary(post);
+    const link = getLink(post);
     return {
       title: post.data.title,
       pubDate: post.data.date,
-      link: getLink(post),
-      // @astro/rss encodes html in `content` and removes CDATA from customData...
-      // If we double it up it seems to only strip one :/
-      // https://github.com/withastro/astro/issues/5677
-      // Need to be sure to check this on the next version change.
-      customData: `<description><![CDATA[<![CDATA[${content}]]]]></description>`,
+      link,
+      description: description
+        ? withAbsoluteURLs(description, new URL(link, import.meta.env.SITE))
+        : undefined,
     };
   });
 
@@ -51,4 +50,18 @@ export async function GET() {
   });
 
   return feed;
+}
+
+function withAbsoluteURLs(html: string, base: URL) {
+  return html.replace(
+    /(src|href)\s*=\s*["']([^"']+)["']/g,
+    (match, attr, url) => {
+      try {
+        return `${attr}="${new URL(url, base)}"`;
+      } catch (e) {
+        console.warn(`Failed to make URL absolute: ${url}`);
+        return match;
+      }
+    },
+  );
 }
