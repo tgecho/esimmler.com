@@ -29,16 +29,13 @@ export async function GET() {
   // console.log("postImportResult all", postImportResult);
   const posts = (await getCollection("blog")).sort(byDate);
   const items = (await posts).map(async (post, index) => {
-    const content = index < 10 ? getCompiledContent(post) : getSummary(post);
+    const description =
+      index < 10 ? getCompiledContent(post) : getSummary(post);
     return {
       title: post.data.title,
       pubDate: post.data.date,
       link: getLink(post),
-      // @astro/rss encodes html in `content` and removes CDATA from customData...
-      // If we double it up it seems to only strip one :/
-      // https://github.com/withastro/astro/issues/5677
-      // Need to be sure to check this on the next version change.
-      customData: `<description><![CDATA[<![CDATA[${content}]]]]></description>`,
+      description,
     };
   });
 
