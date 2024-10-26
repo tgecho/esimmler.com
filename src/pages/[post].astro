@@ -6,12 +6,14 @@ import Timestamp from "../components/Timestamp.astro";
 import { getCollection, getEntryBySlug } from "astro:content";
 import { getSlug } from "../util/getSlug";
 import { getPlainTextSummary } from "../util/getSummary";
+import { getImage } from "astro:assets";
 
 export interface Props {
   data: {
     title: string;
     description?: string;
     date?: string;
+    image?: string;
   };
 }
 
@@ -40,9 +42,10 @@ if (!entry) {
 }
 
 const slug = Astro.params.post;
-const { title, date } = Astro.props.data;
+const { title, date, image } = Astro.props.data;
 const description = getPlainTextSummary(entry);
 const { Content } = await entry.render();
+const ogImage = image ? await getImage({src: image}) : null;
 ---
 
 <html lang="en">
@@ -51,6 +54,7 @@ const { Content } = await entry.render();
     <meta property="og:type" content="article" />
     <meta property="og:title" content={title} />
     {description && <meta property="og:description" content={description} />}
+    {ogImage && <meta property="og:image" content={ogImage.src} />}
     <meta name="fediverse:creator" content="@esimmler@fosstodon.org" />
     <link rel="canonical" href={`/${slug}`} />
     <style>
