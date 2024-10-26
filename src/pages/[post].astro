@@ -48,6 +48,10 @@ const { Content } = await entry.render();
 <html lang="en">
   <head>
     <BaseHead title={title} description={description} />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    <meta name="fediverse:creator" content="@esimmler@fosstodon.org" />
     <link rel="canonical" href={`/${slug}`} />
     <style>
       .title {
