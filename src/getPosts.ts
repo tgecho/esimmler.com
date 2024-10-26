@@ -7,6 +7,7 @@ type RawPost = {
     slug?: string;
     description: string;
     summary: string;
+    image?: string;
   };
   compiledContent(): string;
 };
@@ -17,6 +18,7 @@ export type Post = {
   description?: string;
   summary?: string | undefined;
   content?: string | undefined;
+  image?: string | undefined;
 };
 
 // .mdx posts do not have compiledContent (https://github.com/withastro/astro/issues/3072)
@@ -38,7 +40,7 @@ function postSummary(post: RawPost): string | undefined {
 
 export function getRawPosts() {
   return Promise.all(
-    Object.values(import.meta.glob("./posts/*.{md,mdx}")).map((item) => item())
+    Object.values(import.meta.glob("./posts/*.{md,mdx}")).map((item) => item()),
   );
 }
 
@@ -48,7 +50,7 @@ export async function getPosts(): Promise<Post[]> {
   posts.sort(
     (a, b) =>
       (new Date(b.frontmatter.date).valueOf() || Infinity) -
-      (new Date(a.frontmatter.date).valueOf() || Infinity)
+      (new Date(a.frontmatter.date).valueOf() || Infinity),
   );
 
   return posts
@@ -67,6 +69,7 @@ export async function getPosts(): Promise<Post[]> {
         get content() {
           return compiledContent(post);
         },
+        image: post.frontmatter.image,
       };
     })
     .filter(truthy);
