@@ -2,6 +2,7 @@
 title: "Large WebAssembly builds with Rust and regex"
 date: "2022-02-06"
 summary: "I wanted to share a few functions between a Rust server and web app client, so I decided to finally try out WebAssembly (WASM). After a few tweaks to get data marshalled between the Javascript/WASM worlds, it actually worked really well... except the final `.wasm` file size was about 720K for a ~100 line function (plus dependencies, of course)."
+tags: ["rust", "wasm"]
 ---
 
 I wanted to share a few functions between a Rust server and web app client, so I decided to finally try out [WebAssembly (WASM)](https://developer.mozilla.org/en-US/docs/WebAssembly). After a few tweaks to [get data marshalled between the Javascript/WASM worlds](https://rustwasm.github.io/docs/wasm-bindgen/reference/arbitrary-data-with-serde.html), it actually worked really well... except the final `.wasm` file size was about 720K for a ~100 line function (plus dependencies, of course).

@@ -1,6 +1,7 @@
 ---
 title: "React components are first class"
 date: "2015-06-09"
+tags: ["react"]
 ---
 
 React components have a surprisingly simple property which sets them apart from the equivalents in other frameworks. Rather then being specified by name in a string based template, they're referenced as a value in Javascript.

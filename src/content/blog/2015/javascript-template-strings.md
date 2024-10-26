@@ -1,6 +1,7 @@
 ---
 title: "Simple Javascript rendering with template strings"
 date: "2015-07-13"
+tags: ["javascript"]
 ---
 
 For tiny projects, [template strings](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/template_strings) can make simple things really easy, even without using libraries.

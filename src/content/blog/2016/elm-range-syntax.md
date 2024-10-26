@@ -1,6 +1,7 @@
 ---
 title: "Elm range syntax"
 date: "2016-03-18"
+tags: ["elm"]
 ---
 
 > **Update**: [Elm's list range syntax has been removed as of version 0.18](https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.18.md#list-ranges). The replacement is `List.range 1 2`, which is if nothing else more searchable.

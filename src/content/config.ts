@@ -9,6 +9,7 @@ const blog = defineCollection({
       date: z.string().transform((str) => new Date(`${str}T12:00:00Z`)),
       isDraft: z.boolean().optional(),
       image: image().optional(),
+      tags: z.array(z.string()).optional(),
     }),
 });
 

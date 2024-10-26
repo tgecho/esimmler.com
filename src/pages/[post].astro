@@ -7,14 +7,10 @@ import { getCollection, getEntryBySlug } from "astro:content";
 import { getSlug } from "../util/getSlug";
 import { getPlainTextSummary } from "../util/getSummary";
 import { getImage } from "astro:assets";
+import type { Post } from "../getPosts";
 
 export interface Props {
-  data: {
-    title: string;
-    description?: string;
-    date?: string;
-    image?: string;
-  };
+  data: Post;
 }
 
 export async function getStaticPaths() {
@@ -42,10 +38,11 @@ if (!entry) {
 }
 
 const slug = Astro.params.post;
-const { title, date, image } = Astro.props.data;
+const { title, date, image, tags } = Astro.props.data;
 const description = getPlainTextSummary(entry);
 const { Content } = await entry.render();
 const ogImage = image ? await getImage({src: image}) : null;
+
 ---
 
 <html lang="en">
@@ -64,10 +61,6 @@ const ogImage = image ? await getImage({src: image}) : null;
         padding-top: 0;
         color: #ea7950;
         line-height: 1em;
-      }
-      hr {
-        border-top: 1px solid #ddd;
-        margin: 1em 0;
       }
       article :global(h1, h2, h3, h4, h5) {
         margin: 0.8em 0 0.5em;
@@ -98,6 +91,13 @@ const ogImage = image ? await getImage({src: image}) : null;
       article :global(p, ul, ol) {
         margin: 0.75em 0 1em;
       }
+      .more-tagged {
+        text-align: center;
+
+        & .tags {
+            justify-content: center;
+        }
+      }
     </style>
   </head>
 
@@ -109,6 +109,14 @@ const ogImage = image ? await getImage({src: image}) : null;
         <h1 class="title">{title}</h1>
         <Content />
       </article>
+
+      {tags && (<div class="more-tagged">
+        <hr />
+        <h4>Read more tagged with</h4>
+        <div class="tags">
+            {tags?.map(tag => <a href={`/tag/${tag}`}>{tag}</a>)}
+        </div>
+      </div>)}
     </main>
     <Footer />
   </body>

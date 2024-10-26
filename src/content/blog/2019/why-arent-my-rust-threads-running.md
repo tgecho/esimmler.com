@@ -1,6 +1,7 @@
 ---
 title: "Why aren't my Rust threads running?"
 date: "2019-01-19"
+tags: ["rust"]
 ---
 
 I got a bit tangled up while experimenting with threads and channels in Rust. The compiler prevented any undefined behavior or memory corruption, but it can only do so much. My problems came from a shaky understanding of the language's fundamentals and the inherent complexity of parallel programming. Or, in my case, attempted parallel programming.

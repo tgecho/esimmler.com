@@ -1,6 +1,7 @@
 ---
 title: "Dynamic React animations"
 date: "2015-06-25"
+tags: ["react"]
 ---
 
 Did you know that you can dynamically change the transitionName of a [React](http://facebook.github.io/react/) animation on the fly? This is more of a "hey look it works" thing then an actual revelation.

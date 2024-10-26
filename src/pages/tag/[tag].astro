@@ -1,0 +1,46 @@
+---
+import BaseHead from "../../components/BaseHead.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { getCollection } from "astro:content";
+import PostList from "../../components/PostList.astro";
+import { byDate } from "../../util/byDate";
+import PageH2 from "../../components/PageH2.astro";
+import { getTags } from "../../util/getTags";
+
+export interface Props {
+  data: {
+    title: string;
+    description?: string;
+    date?: string;
+  };
+}
+
+export async function getStaticPaths() {
+  return (await getTags()).map((tag) => ({ params: { tag } }));
+}
+
+const tag = Astro.params.tag;
+const title = `Tagged with "${tag}"`;
+const posts = (await getCollection("blog"))
+  .filter((p) => p.data.tags?.includes(tag))
+  .sort(byDate);
+---
+
+<html lang="en">
+  <head>
+    <BaseHead title={title} />
+    <link rel="canonical" href={`https://esimmler.com/archive/${tag}`} />
+  </head>
+
+  <body>
+    <Header />
+    <main>
+      <article>
+        <PageH2>{title}</PageH2>
+        <PostList posts={posts} />
+      </article>
+    </main>
+    <Footer />
+  </body>
+</html>

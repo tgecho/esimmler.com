@@ -1,6 +1,7 @@
 ---
 title: "A tiny dependency injectorish snippet"
 date: "2019-12-15"
+tags: ["python"]
 ---
 
 My favorite [pytest](https://docs.pytest.org/) feature is its support for ["funcarg" fixtures](https://docs.pytest.org/en/latest/fixture.html#fixtures-as-function-arguments), a lightweight approach to wiring up data flow. Years ago, I even wrote [a small library](https://github.com/tgecho/pipedream) targeted at more generic usage. It was a fun experience, but most of the Python I've written lately is in the form of small scripts. In that context, it's often convenient to avoid extra dependencies.
