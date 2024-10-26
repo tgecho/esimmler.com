@@ -21,7 +21,7 @@ export async function getStaticPaths() {
 }
 
 const tag = Astro.params.tag;
-const title = `Posts tagged with "${tag}"`;
+const title = `Tagged with "${tag}"`;
 const posts = (await getCollection("blog"))
   .filter((p) => p.data.tags?.includes(tag))
   .sort(byDate);

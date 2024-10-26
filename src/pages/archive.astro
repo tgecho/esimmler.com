@@ -24,7 +24,9 @@ const tags = await getTags();
     <main>
       <section>
         <PageH2>Archives</PageH2>
-        {tags.map((tag) => <a href={`/archive/${tag}`}>{tag}</a>)}
+        <div class="tags">
+            {tags.map((tag) => <a href={`/tag/${tag}`}>{tag}</a>)}
+        </div>
         <PostList posts={posts} />
       </section>
       <Footer />

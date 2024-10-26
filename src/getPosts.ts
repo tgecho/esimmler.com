@@ -19,6 +19,7 @@ export type Post = {
   summary?: string | undefined;
   content?: string | undefined;
   image?: string | undefined;
+  tags?: string[];
 };
 
 // .mdx posts do not have compiledContent (https://github.com/withastro/astro/issues/3072)

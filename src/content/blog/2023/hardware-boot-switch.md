@@ -3,6 +3,7 @@ title: "A hardware boot switch"
 date: "2023-02-05"
 summary: "I recently added a spare SSD so I could play with desktop Linux again, and I again quickly grew tired of trying to catch the GRUB boot selection screen. So I made a thing."
 image: "./hardware-boot-switch/switchable-thumbdrive.jpg"
+tags: ["hardware"]
 ---
 
 I recently added a spare SSD so I could play with desktop Linux again, and I again quickly grew tired of trying to catch the GRUB boot selection screen. A bit of searching turned up this project log for a [Simplified hardware boot switch](https://hackaday.io/project/179539-hardware-boot-selection-switch/log/196047-simplified-hardware-boot-switch).
