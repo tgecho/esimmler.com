@@ -13,9 +13,9 @@ export async function GET() {
   const rawPostsById = Object.fromEntries(
     Object.entries(postImportResult).map(([key, value]) => [
       key.slice(postsPrefixLength),
-      value,
+      value as ExportedMarkdownModuleEntities,
     ]),
-  ) as Record<string, { compiledContent: () => string }>;
+  );
 
   function getCompiledContent(post: CollectionEntry<"blog">) {
     const rawPost = rawPostsById[post.id];
@@ -28,8 +28,9 @@ export async function GET() {
 
   const posts = (await getCollection("blog")).sort(byDate);
   const items = (await posts).map(async (post, index) => {
-    const description =
-      index < 10 ? getCompiledContent(post) : getSummary(post);
+    const description = await (index < 10
+      ? getCompiledContent(post)
+      : getSummary(post));
     const link = getLink(post);
     return {
       title: post.data.title,
