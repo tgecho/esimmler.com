@@ -85,19 +85,34 @@ img {
 }
 code {
   padding: 0.1em 0.2em;
-  background-color: #f2f2f2;
 }
 pre {
   padding: 0.8em 1em;
 }
 code,
-pre.astro-code {
+pre.astro-code,
+pre.shiki {
   border-radius: 0.2em;
   font-size: 0.8em;
+  border: 1px dotted #ccc;
 }
 pre > code {
   all: unset;
 }
+// TODO: evaluate this and https://shiki.style/packages/transformers
+// pre {
+//   counter-reset: step;
+// }
+// code .line::before {
+//   counter-increment: step;
+//   content: counter(step);
+//   width: 1rem;
+//   margin-right: 1.5rem;
+//   display: inline-block;
+//   text-align: right;
+//   color: rgba(115, 138, 148, 0.4);
+// }
+
 blockquote {
   border: 1px solid #999;
   color: #222;

@@ -23,12 +23,11 @@ if (GHOST_ADMIN_API_KEY) {
 }
 
 export function allPosts(limit: "all" | number = "all") {
-  console.log("allPosts", limit);
   return client.posts.browse({
     limit,
   });
 }
 
 export function postFromSlug(slug: string) {
-  return client.posts.read({ slug }, { include: "tags" });
+  return client.posts.read({ slug }, { formats: ["html"], include: ["tags"] });
 }

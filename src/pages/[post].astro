@@ -6,6 +6,7 @@ import Timestamp from "../components/Timestamp.astro";
 import type { Post } from "../getPosts";
 
 import { allPosts, postFromSlug } from '../lib/ghost';
+import { highlightCodeBlocks } from "../util/code";
 
 
 export interface Props {
@@ -24,7 +25,9 @@ const post = await postFromSlug(Astro.params.post);
 const description = post.custom_excerpt || post.excerpt;
 // TODO: Pull feature image from ghost
 // const ogImage = image ? await getImage({src: image}) : null;
-console.log(post)
+// console.log(post)
+let html = post.html || '';
+html = await highlightCodeBlocks(html);
 ---
 
 <html lang="en">
@@ -89,7 +92,7 @@ console.log(post)
       <article>
         <Timestamp ts={post.published_at} />
         <h1 class="title">{post.title}</h1>
-        <Fragment set:html={post.html} />
+        <Fragment set:html={html} />
       </article>
       {post.tags?.length && (<div class="more-tagged">
         <hr />
