@@ -6,6 +6,7 @@ import Timestamp from "../components/Timestamp.astro";
 import type { Post } from "../getPosts";
 
 import { allPosts, postFromSlug } from '../lib/ghost';
+import { wrapSidenotes } from "../util/sidenotes";
 import { highlightCodeBlocks } from "../util/code";
 
 
@@ -27,6 +28,7 @@ const description = post.custom_excerpt || post.excerpt;
 // const ogImage = image ? await getImage({src: image}) : null;
 // console.log(post)
 let html = post.html || '';
+html = wrapSidenotes(html);
 html = await highlightCodeBlocks(html);
 ---
 
