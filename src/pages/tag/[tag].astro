@@ -16,6 +16,8 @@ export interface Props {
   };
 }
 
+// TODO: Populate this from ghost
+
 export async function getStaticPaths() {
   return (await getTags()).map((tag) => ({ params: { tag } }));
 }

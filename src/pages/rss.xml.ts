@@ -5,6 +5,8 @@ import { byDate } from "../util/byDate";
 import { getLink } from "../util/getSlug";
 import { getSummary } from "../util/getSummary";
 
+// TODO: pull content from ghost
+
 export async function GET() {
   const postsPrefixLength = "../content/blog/".length;
   const postImportResult = import.meta.glob("../content/blog/**/*.md", {
