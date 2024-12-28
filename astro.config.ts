@@ -1,4 +1,4 @@
-import { defineConfig } from "astro/config";
+import { defineConfig, passthroughImageService } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import autolinkHeadings from "rehype-autolink-headings";
 import slug from "rehype-slug";
@@ -34,6 +34,10 @@ export default defineConfig({
   },
   build: {
     inlineStylesheets: `auto`,
+  },
+  image: {
+    service: passthroughImageService(),
+    domains: ["marvin.local"],
   },
   compressHTML: true,
 });

@@ -4,10 +4,14 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import Timestamp from "../components/Timestamp.astro";
 import type { Post } from "../getPosts";
+import * as cheerio from "cheerio";
 
 import { allPosts, postFromSlug } from '../lib/ghost';
 import { wrapSidenotes } from "../util/sidenotes";
 import { highlightCodeBlocks } from "../util/code";
+import { processImgTags } from "../util/ghostImages";
+import { getImage } from "astro:assets";
+import type { PostOrPage } from "@tryghost/content-api";
 
 
 export interface Props {
@@ -22,14 +26,22 @@ export async function getStaticPaths() {
   }));
 }
 
+export async function postToHtml(post: PostOrPage) {
+  const withSidenotes = wrapSidenotes(post.html || '');
+  let $ = cheerio.load(withSidenotes);
+  $ = await highlightCodeBlocks($);
+  $ = await processImgTags($);
+  return $.html();
+}
+
+export async function postSummary(post: PostOrPage) {
+  return post.custom_excerpt || post.excerpt;
+}
+
 const post = await postFromSlug(Astro.params.post);
-const description = post.custom_excerpt || post.excerpt;
-// TODO: Pull feature image from ghost
-// const ogImage = image ? await getImage({src: image}) : null;
-// console.log(post)
-let html = post.html || '';
-html = wrapSidenotes(html);
-html = await highlightCodeBlocks(html);
+const html = await postToHtml(post);
+const description = await postSummary(post);
+const ogImage = post.feature_image ? await getImage({src: post.feature_image, inferSize: true}) : null;
 ---
 
 <html lang="en">
@@ -38,7 +50,9 @@ html = await highlightCodeBlocks(html);
     <meta property="og:type" content="article" />
     <meta property="og:title" content={post.title} />
     {description && <meta property="og:description" content={description} />}
-    <!-- {ogImage && <meta property="og:image" content={ogImage.src} />} -->
+    {ogImage && <meta property="og:image" content={ogImage.src} />}
+    {ogImage && post.feature_image_alt && <meta property="og:image:alt" content={post.feature_image_alt} />}
+    <meta property="og:image:alt" content="A shiny red apple with a bite taken out" />
     <meta name="fediverse:creator" content="@esimmler@fosstodon.org" />
     <link rel="canonical" href={`/${post.slug}`} />
     <style>

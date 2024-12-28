@@ -1,8 +1,9 @@
 import * as cheerio from "cheerio";
 import { codeToHtml } from "shiki";
 
-export async function highlightCodeBlocks(html: string): Promise<string> {
-  const $ = cheerio.load(html);
+export async function highlightCodeBlocks(
+  $: cheerio.CheerioAPI,
+): Promise<cheerio.CheerioAPI> {
   for (const element of $("pre").has("code")) {
     const code = $(element).find("code");
     const lang = $(code).attr("class")?.replace("language-", "") || "text";
@@ -12,5 +13,5 @@ export async function highlightCodeBlocks(html: string): Promise<string> {
     });
     $(element).replaceWith(highlighted);
   }
-  return $.html();
+  return $;
 }
