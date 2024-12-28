@@ -55,6 +55,7 @@ b {
 a {
   color: #3273dc;
   text-decoration-thickness: 0.04em;
+  text-underline-offset: 0.1em;
 
   &:visited:not(:hover) {
     filter: brightness(0.75);
@@ -92,14 +93,15 @@ code {
   padding: 0.1em 0.2em;
 }
 pre {
-  padding: 0.8em 1em;
+  padding: 0.6em 0.7em;
 }
 code,
 pre.astro-code,
 pre.shiki {
   border-radius: 0.2em;
   font-size: 0.8em;
-  border: 1px dotted #ccc;
+  border: 1px dotted #999;
+  overflow-x: auto;
 }
 pre > code {
   all: unset;
@@ -119,11 +121,15 @@ pre > code {
 // }
 
 blockquote {
-  border: 1px solid #999;
-  color: #222;
-  padding: 0.1em 0 0.1em 1em;
+  border-left: 3px solid #ddd;
+  color: #444;
+  padding: 0 0 0 1em;
   margin: 0px;
-  font-style: italic;
+  font-size: 0.9em;
+
+  cite {
+    font-style: italic;
+  }
 }
 
 hr {
@@ -185,7 +191,7 @@ input[id^="sidenote-"] {
   float: right;
   width: calc(var(--sidenote-width) - 2rem);
   margin: -0.25rem calc(-1 * var(--sidenote-width)) 0.5rem 0;
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem 1rem 0.25rem 0.5rem;
   clear: right;
   border-radius: 6px 0 0 6px;
   opacity: 0.8;

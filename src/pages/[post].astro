@@ -110,13 +110,13 @@ const ogImage = post.feature_image ? await getImage({src: post.feature_image, in
         <h1 class="title">{post.title}</h1>
         <Fragment set:html={html} />
       </article>
-      {post.tags?.length && (<div class="more-tagged">
+      {post.tags?.length ? (<div class="more-tagged">
         <hr />
         <h4>Read more tagged with</h4>
         <div class="tags">
             {post.tags?.map(tag => <a href={`/tag/${tag.slug}`}>{tag.name}</a>)}
         </div>
-      </div>)}
+      </div>) : ''}
     </main>
     <Footer />
   </body>
