@@ -31,3 +31,17 @@ export function allPosts(limit: "all" | number = "all") {
 export function postFromSlug(slug: string) {
   return client.posts.read({ slug }, { formats: ["html"], include: ["tags"] });
 }
+
+export function allTags() {
+  return client.tags.browse();
+}
+
+export function tagFromSlug(slug: string) {
+  return client.tags.read({ slug });
+}
+
+export function postsByTag(tag: string) {
+  return client.posts.browse({
+    filter: `tag:${tag}`,
+  });
+}

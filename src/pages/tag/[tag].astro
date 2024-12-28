@@ -6,7 +6,7 @@ import { getCollection } from "astro:content";
 import PostList from "../../components/PostList.astro";
 import { byDate } from "../../util/byDate";
 import PageH2 from "../../components/PageH2.astro";
-import { getTags } from "../../util/getTags";
+import { allTags, tagFromSlug, postsByTag } from "../../lib/ghost";
 
 export interface Props {
   data: {
@@ -16,17 +16,13 @@ export interface Props {
   };
 }
 
-// TODO: Populate this from ghost
-
 export async function getStaticPaths() {
-  return (await getTags()).map((tag) => ({ params: { tag } }));
+  return (await allTags()).map((tag) => ({ params: { tag: tag.slug } }));
 }
 
-const tag = Astro.params.tag;
-const title = `Tagged with "${tag}"`;
-const posts = (await getCollection("blog"))
-  .filter((p) => p.data.tags?.includes(tag))
-  .sort(byDate);
+const tag = await tagFromSlug(Astro.params.tag);
+const title = `Tagged with ${tag.name}`;
+const posts = (await postsByTag(tag.slug))
 ---
 
 <html lang="en">
