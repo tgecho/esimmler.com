@@ -3,10 +3,18 @@ import sitemap from "@astrojs/sitemap";
 import autolinkHeadings from "rehype-autolink-headings";
 import slug from "rehype-slug";
 import svelte from "@astrojs/svelte";
+import "dotenv/config";
+
+const { GHOST_SERVER_URL, NODE_ENV } = process.env;
+
+if (!GHOST_SERVER_URL) {
+  throw new Error("GHOST_SERVER_URL is required");
+}
+const GHOST_HOST = new URL(GHOST_SERVER_URL).host;
 
 export default defineConfig({
   site:
-    process.env.NODE_ENV === "production"
+    NODE_ENV === "production"
       ? "https://esimmler.com/"
       : "http://localhost:4321",
   integrations: [
@@ -37,7 +45,7 @@ export default defineConfig({
   },
   image: {
     service: passthroughImageService(),
-    domains: ["marvin.local"],
+    domains: [GHOST_HOST],
   },
   compressHTML: true,
 });
