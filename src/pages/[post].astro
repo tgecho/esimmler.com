@@ -38,6 +38,10 @@ export async function postSummary(post: PostOrPage) {
   return post.custom_excerpt || post.excerpt;
 }
 
+export function postLink(post: PostOrPage) {
+  return `/${post.slug}`;
+}
+
 const post = await postFromSlug(Astro.params.post);
 const html = await postToHtml(post);
 const description = await postSummary(post);
