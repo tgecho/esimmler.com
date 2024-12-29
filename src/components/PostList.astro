@@ -1,10 +1,10 @@
 ---
-import type { CollectionEntry } from "astro:content";
 import Timestamp from "../components/Timestamp.astro";
-import { getLink } from "../util/getSlug";
+import type { PostOrPage } from "@tryghost/content-api";
+import { postLink } from "../pages/[post].astro";
 
 export interface Props {
-    posts: CollectionEntry<"blog">[];
+    posts: PostOrPage[];
 }
 
 const posts = Astro.props.posts;
@@ -20,7 +20,7 @@ const posts = Astro.props.posts;
         align-items: end;
     }
     ul li :global(time) {
-        flex: 0 0 6em;
+        flex: 0 0 7.5em;
         color: #595959;
         text-align: right;
         padding-right: 1em;
@@ -45,8 +45,8 @@ const posts = Astro.props.posts;
         posts.map((post) => {
             return (
                 <li>
-                    <Timestamp ts={post.data.date} />
-                    <a href={getLink(post)}>{post.data.title}</a>
+                    <Timestamp ts={post.published_at} />
+                    <a href={postLink(post)}>{post.title}</a>
                 </li>
             );
         })

@@ -3,13 +3,12 @@ import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../config";
-import { getLink } from "../util/getSlug";
 import Timestamp from "../components/Timestamp.astro";
-import { getCollection } from "astro:content";
-import { byDate } from "../util/byDate";
-import { getSummary } from "../util/getSummary";
+import { allPosts } from '../lib/ghost';
 
-const posts = (await getCollection("blog")).sort(byDate).slice(0, 7);
+const posts = await allPosts(7);
+
+// TODO: visually mark status: 'draft' posts
 
 ---
 
@@ -26,7 +25,7 @@ const posts = (await getCollection("blog")).sort(byDate).slice(0, 7);
         line-height: 1em;
       }
       h2 a {
-        text-decoration: underline;
+        text-decoration: underline 0.06em;
       }
       article {
         margin-bottom: 1.5em;
@@ -45,17 +44,17 @@ const posts = (await getCollection("blog")).sort(byDate).slice(0, 7);
     <main>
       <section>
         {
-          await posts.map(async (post) => {
-            const link = getLink(post);
-            const summary = await getSummary(post);
+          await posts?.map(async (post) => {
+            const link = `/${post.slug}`;
+            const summary = post.custom_excerpt || post.excerpt;
 
             return (
               <>
                 <article>
                   <header>
-                    <Timestamp ts={post.data.date} />
+                    <Timestamp ts={post.published_at} />
                     <h2>
-                      <a href={link}>{post.data.title}</a>
+                      <a href={link}>{post.title}</a>
                     </h2>
                   </header>
                   {summary && <p>

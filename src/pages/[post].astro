@@ -3,58 +3,60 @@ import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import Timestamp from "../components/Timestamp.astro";
-import { getCollection, getEntry } from "astro:content";
-import { getSlug } from "../util/getSlug";
-import { getPlainTextSummary } from "../util/getSummary";
+import * as cheerio from "cheerio";
+
+import { allPosts, postFromSlug } from '../lib/ghost';
+import { wrapSidenotes } from "../util/sidenotes";
+import { highlightCodeBlocks } from "../util/code";
+import { processImgTags } from "../util/ghostImages";
 import { getImage } from "astro:assets";
-import type { Post } from "../getPosts";
+import type { PostOrPage } from "@tryghost/content-api";
+
 
 export interface Props {
   slug: string;
-  data: Post;
 }
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
-
-  const paths = posts
-    .map((post) => {
-      const slug = getSlug(post);
-      return slug
-        ? {
-            params: { post: slug },
-            props: post,
-          }
-        : null;
-    })
-    .filter((p) => p);
-
-  return paths;
+  const posts = await allPosts();
+  return posts.map((post) => ({
+    params: { post: `/${post.slug}` },
+  }));
 }
 
-// We're using the internal auto generated slug to make this lookup cleaner/faster
-const entry = await getEntry("blog", Astro.props.slug);
-if (!entry) {
-  throw new Error(`Unable to find a post with the path ${Astro.props.slug}`);
+export async function postToHtml(post: PostOrPage) {
+  const withSidenotes = wrapSidenotes(post.html || '');
+  let $ = cheerio.load(withSidenotes);
+  $ = await highlightCodeBlocks($);
+  $ = await processImgTags($);
+  return $.html();
 }
 
-const slug = Astro.params.post;
-const { title, date, image, tags } = Astro.props.data;
-const description = getPlainTextSummary(entry);
-const { Content } = await entry.render();
-const ogImage = image ? await getImage({src: image}) : null;
+export async function postSummary(post: PostOrPage) {
+  return post.custom_excerpt || post.excerpt;
+}
 
+export function postLink(post: PostOrPage) {
+  return `/${post.slug}`;
+}
+
+const post = await postFromSlug(Astro.params.post);
+const html = await postToHtml(post);
+const description = await postSummary(post);
+const ogImage = post.feature_image ? await getImage({src: post.feature_image, inferSize: true}) : null;
 ---
 
 <html lang="en">
   <head>
-    <BaseHead title={title} description={description} />
+    <BaseHead title={post.title ?? ''} description={description} />
     <meta property="og:type" content="article" />
-    <meta property="og:title" content={title} />
+    <meta property="og:title" content={post.title} />
     {description && <meta property="og:description" content={description} />}
     {ogImage && <meta property="og:image" content={ogImage.src} />}
+    {ogImage && post.feature_image_alt && <meta property="og:image:alt" content={post.feature_image_alt} />}
+    <meta property="og:image:alt" content="A shiny red apple with a bite taken out" />
     <meta name="fediverse:creator" content="@esimmler@fosstodon.org" />
-    <link rel="canonical" href={`/${slug}`} />
+    <link rel="canonical" href={`/${post.slug}`} />
     <style>
       .title {
         font-size: 1.5em;
@@ -106,18 +108,17 @@ const ogImage = image ? await getImage({src: image}) : null;
     <Header />
     <main>
       <article>
-        <Timestamp ts={date} />
-        <h1 class="title">{title}</h1>
-        <Content />
+        <Timestamp ts={post.published_at} />
+        <h1 class="title">{post.title}</h1>
+        <Fragment set:html={html} />
       </article>
-
-      {tags && (<div class="more-tagged">
+      {post.tags?.length ? (<div class="more-tagged">
         <hr />
         <h4>Read more tagged with</h4>
         <div class="tags">
-            {tags?.map(tag => <a href={`/tag/${tag}`}>{tag}</a>)}
+            {post.tags?.map(tag => <a href={`/tag/${tag.slug}`}>{tag.name}</a>)}
         </div>
-      </div>)}
+      </div>) : ''}
     </main>
     <Footer />
   </body>
